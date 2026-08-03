@@ -1,5 +1,7 @@
 import { supabase, type Article } from "../../../lib/supabase";
 import { notFound } from "next/navigation";
+import ViewPing from "./ViewPing";
+import FtgFooter from "@/app/FtgFooter";
 
 const SAMPLE_CONTENT = `
 <p>If you're working FIFO, chances are you're earning more than most Australians. The industry pays well — and it should, given what you put up with. But here's the uncomfortable truth: a surprising number of FIFO workers reach the end of their working life without much to show for it financially.</p>
@@ -74,6 +76,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
   return (
     <article style={{ maxWidth: 780, margin: "0 auto", padding: "48px 24px 80px" }}>
+      <ViewPing site="fifo" slug={display.slug} />
       {/* Breadcrumb */}
       <div style={{ fontFamily: "system-ui, sans-serif", fontSize: 13, color: "#6b7280", marginBottom: 24 }}>
         <a href="/" style={{ color: "#6b7280" }}>Home</a>
@@ -117,6 +120,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
           Download Free →
         </a>
       </div>
+      <FtgFooter />
     </article>
   );
 }

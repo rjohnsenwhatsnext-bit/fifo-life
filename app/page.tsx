@@ -1,4 +1,8 @@
 import { supabase, type Article } from "../lib/supabase";
+import FtgFooter from "@/app/FtgFooter";
+// re-render at most every 5 minutes so daily agent-published articles appear
+export const revalidate = 300;
+
 
 const SAMPLE_ARTICLES: Article[] = [
   {
@@ -73,15 +77,25 @@ export default async function HomePage() {
               Read Article →
             </a>
           </div>
-          <div style={{ background: "#1a56db", borderRadius: 12, height: 280, display: "flex", alignItems: "center", justifyContent: "center" }}>
-            <div style={{ textAlign: "center", color: "#fff" }}>
-              <div style={{ fontSize: 64, marginBottom: 8 }}>⛏️</div>
-              <div style={{ fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 18 }}>FIFO Life</div>
-              <div style={{ fontFamily: "system-ui, sans-serif", fontSize: 13, opacity: 0.8 }}>Real talk. Real advice.</div>
+          <div style={{ borderRadius: 12, overflow: "hidden", height: 300, position: "relative" }}>
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/hero-fifo.jpg"
+              alt="FIFO worker walking to the plane at sunrise, bag in hand"
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+            <div style={{ position: "absolute", left: 0, right: 0, bottom: 0, padding: "24px 20px 14px", background: "linear-gradient(transparent, rgba(0,0,0,0.65))", color: "#fff", fontFamily: "system-ui, sans-serif" }}>
+              <div style={{ fontWeight: 700, fontSize: 16 }}>FIFO Life</div>
+              <div style={{ fontSize: 12.5, opacity: 0.9 }}>Real talk. Real advice.</div>
             </div>
           </div>
         </div>
       </section>
+
+      {/* Ad slot — leaderboard (fills when AdSense is approved) */}
+      <div style={{ maxWidth: 1200, margin: "24px auto 0", padding: "0 24px" }}>
+        <div id="ad-leaderboard" style={{ height: 100, borderRadius: 8, background: "repeating-linear-gradient(45deg,#f6f7f8,#f6f7f8 12px,#f1f2f4 12px,#f1f2f4 24px)", border: "1px dashed #e0e3e7", display: "flex", alignItems: "center", justifyContent: "center", color: "#b6bcc4", fontFamily: "system-ui, sans-serif", fontSize: 11, letterSpacing: 1 }}>AD</div>
+      </div>
 
       {/* Article grid */}
       <section style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 24px" }}>
@@ -99,6 +113,9 @@ export default async function HomePage() {
             <ArticleCard key={article.id} article={article} />
           ))}
         </div>
+
+        {/* Ad slot — in-content */}
+        <div id="ad-incontent" style={{ height: 250, marginTop: 40, borderRadius: 8, background: "repeating-linear-gradient(45deg,#f6f7f8,#f6f7f8 12px,#f1f2f4 12px,#f1f2f4 24px)", border: "1px dashed #e0e3e7", display: "flex", alignItems: "center", justifyContent: "center", color: "#b6bcc4", fontFamily: "system-ui, sans-serif", fontSize: 11, letterSpacing: 1 }}>AD</div>
       </section>
 
       {/* PDF Guides CTA */}
@@ -114,6 +131,10 @@ export default async function HomePage() {
           </a>
         </div>
       </section>
+
+        <div style={{ maxWidth: 780, margin: "0 auto", padding: "0 24px 64px" }}>
+          <FtgFooter />
+        </div>
     </>
   );
 }
