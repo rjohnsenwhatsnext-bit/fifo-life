@@ -12,6 +12,7 @@ export type PlanInputs = {
   landPrice: number; landDeposit: number; buyingCosts: number; loanTerm: number; landInterest: number; landIncome: number; desiredEmergency: number; landType: 'Vacant rural land' | 'Land with existing house' | 'Land first, build later';
   investmentType: string; investmentReturn: number; investmentTax: number; inflation: number; investmentYears: number;
   houseValue: number; homeInterest: number; homeRepayment: number; rates: number; homeInsurance: number; maintenance: number; propertyGrowth: number;
+  tripWeeks: number; tripFuelAdjustment: number; tripGroceriesPerDay: number; tripAccommodationNight: number; tripAccommodationNights: number;
 };
 
 export const DEFAULT_BUDGET: TravelBudget = {
@@ -32,6 +33,7 @@ export const defaults: PlanInputs = {
   landPrice: 700000, landDeposit: 200000, buyingCosts: 25000, loanTerm: 30, landInterest: 6.5, landIncome: 120000, desiredEmergency: 30000, landType: 'Vacant rural land',
   investmentType: 'High-interest savings', investmentReturn: 4.5, investmentTax: 32, inflation: 3, investmentYears: 2,
   houseValue: 750000, homeInterest: 6.2, homeRepayment: 2500, rates: 2800, homeInsurance: 2200, maintenance: 4500, propertyGrowth: 5,
+  tripWeeks: 3, tripFuelAdjustment: 0, tripGroceriesPerDay: 40, tripAccommodationNight: 45, tripAccommodationNights: 16,
 };
 
 export const aud = (value: number, compact = false) => new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0, notation: compact ? 'compact' : 'standard' }).format(Number.isFinite(value) ? value : 0);

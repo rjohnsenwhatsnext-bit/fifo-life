@@ -1,4 +1,5 @@
 import './planner.css';
+import './trip.css';
 import Planner from './planner';
 
 export const metadata = { title: 'Family Freedom Planner' };

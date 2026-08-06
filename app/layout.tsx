@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { Analytics } from "@vercel/analytics/next";
 
 export const metadata: Metadata = {
   title: { default: "FIFO Life — Real Talk for FIFO Workers & Families", template: "%s | FIFO Life" },
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Header />
         <main>{children}</main>
         <Footer />
+              <Analytics />
       </body>
     </html>
   );
@@ -37,8 +39,14 @@ function Header() {
           <span style={{ fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 18, color: "#111" }}>Life</span>
         </a>
         <nav style={{ display: "flex", gap: 28, fontFamily: "system-ui, sans-serif", fontSize: 14, fontWeight: 500, color: "#374151" }}>
-          {["Money", "Relationships", "Health", "Career", "Guides"].map(cat => (
-            <a key={cat} href={cat === "Guides" ? "/guides" : `/category/${cat.toLowerCase()}`}>{cat}</a>
+          {["Money", "Relationships", "Health", "Career", "Mine Map", "Guides"].map(cat => (
+            <a key={cat}
+              href={
+                cat === "Guides" ? "/guides"
+                : cat === "Mine Map" ? "/mines"
+                : `/category/${cat.toLowerCase()}`
+              }
+            >{cat}</a>
           ))}
         </nav>
       </div>
@@ -59,8 +67,14 @@ function Footer() {
         </div>
         <div>
           <div style={{ fontFamily: "system-ui, sans-serif", fontWeight: 600, color: "#fff", marginBottom: 14, fontSize: 13, letterSpacing: "0.05em", textTransform: "uppercase" }}>Categories</div>
-          {["Money", "Relationships", "Health", "Career", "Guides"].map(cat => (
-            <a key={cat} href={cat === "Guides" ? "/guides" : `/category/${cat.toLowerCase()}`} style={{ display: "block", fontSize: 14, marginBottom: 8 }}>{cat}</a>
+          {["Money", "Relationships", "Health", "Career", "Mine Map", "Guides"].map(cat => (
+            <a key={cat}
+              href={
+                cat === "Guides" ? "/guides"
+                : cat === "Mine Map" ? "/mines"
+                : `/category/${cat.toLowerCase()}`
+              }
+              style={{ display: "block", fontSize: 14, marginBottom: 8 }}>{cat}</a>
           ))}
         </div>
         <div>
