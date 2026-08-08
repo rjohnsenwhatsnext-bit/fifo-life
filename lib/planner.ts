@@ -1,72 +1,183 @@
 export type TravelBudget = Record<string, number>;
 
-export type PlanInputs = {
-  houseSale: number; mortgage: number; tritonLoan: number; caravanLoan: number; assetSales: number;
-  sellingCosts: number; legalCosts: number; movingCosts: number; tritonSetup: number; replacementVan: number;
-  caravanSetup: number; travelSetup: number; repairReserve: number; landTarget: number; duration: number;
-  budget: TravelBudget; dieselPrice: number; towingConsumption: number; kmPerMonth: number;
-  systemsNewClients: number; systemsChurn: number; systemsSetupFee: number; systemsSubscription: number;
-  systemsSupportCost: number; systemsSoftwareCost: number; systemsLabourCost: number; systemsInitialClients: number;
-  recruitmentPlacements: number; recruitmentFee: number; recruitmentSuccess: number; recruitmentRefundRisk: number; recruitmentExpenses: number;
-  youtubeRevenue: number; sponsorship: number; affiliate: number; podcastSponsor: number; productionCost: number; contentGrowth: number;
-  landPrice: number; landDeposit: number; buyingCosts: number; loanTerm: number; landInterest: number; landIncome: number; desiredEmergency: number; landType: 'Vacant rural land' | 'Land with existing house' | 'Land first, build later';
-  investmentType: string; investmentReturn: number; investmentTax: number; inflation: number; investmentYears: number;
-  houseValue: number; homeInterest: number; homeRepayment: number; rates: number; homeInsurance: number; maintenance: number; propertyGrowth: number;
-  tripWeeks: number; tripFuelAdjustment: number; tripGroceriesPerDay: number; tripAccommodationNight: number; tripAccommodationNights: number;
+export type Period = 'week' | 'month';
+
+// A leg of the trip: drive somewhere, stay a while, drive on.
+//
+// Distance can be looked up or typed, because somebody who has done the drive
+// knows it better than a routing engine and should not have to argue with one.
+export type Leg = {
+  id: string;
+  from: string;
+  to: string;
+  km: number;
+  nights: number;
+  nightly: number;      // what a night costs where you are stopping
+  note?: string;
+  // Filled in by the distance lookup, so the map can draw the actual road
+  // rather than a straight line between two dots.
+  fromAt?: [number, number];
+  toAt?: [number, number];
+  line?: [number, number][];
+  // A national park camp is priced by a published rule rather than by whatever
+  // the site charges, so it does not need a price typed against it.
+  nationalPark?: boolean;
 };
 
+// Four weeks is not a month. 52 divided by 12 is 4.333, and using 4 understates
+// a year of spending by a month of it. This is the only place that number
+// lives.
+export const WEEKS_PER_MONTH = 52 / 12;
+
+export const toMonthly = (value: number, period: Period) =>
+  period === 'week' ? value * WEEKS_PER_MONTH : value;
+
+export const toWeekly = (value: number, period: Period) =>
+  period === 'week' ? value : value / WEEKS_PER_MONTH;
+
+// Moving between weekly and monthly entry must not change what somebody is
+// actually planning to spend, so the numbers are converted with the switch.
+export function convertBudget(budget: TravelBudget, from: Period, to: Period): TravelBudget {
+  if (from === to) return budget;
+  const factor = to === 'week' ? 1 / WEEKS_PER_MONTH : WEEKS_PER_MONTH;
+  return Object.fromEntries(Object.entries(budget).map(([k, v]) => [k, Math.round(v * factor)]));
+}
+
+// One number to start with.
+//
+// This used to be built up from a house sale, a mortgage payout, two vehicle
+// loans and a pile of setup costs. All of that was answering a different
+// question. What a trip actually needs to know is how much money there is when
+// you pull out of the driveway, and how long it lasts.
+export type PlanInputs = {
+  startingMoney: number;
+  duration: number;
+  budget: TravelBudget; budgetPeriod: Period;
+  dieselPrice: number; towingConsumption: number;
+  kmPerMonth: number; kmPerTravelDay: number; travelDays: number;
+  legs: Leg[]; useRoute: boolean;
+  // Everybody five and over. Under fives camp free in Queensland parks, so
+  // counting them would overstate the bill.
+  party: number; npPerPerson: number; npFamilyCap: number;
+  tripWeeks: number; tripFuelAdjustment: number; tripGroceriesPerDay: number;
+  tripAccommodationNight: number; tripAccommodationNights: number;
+};
+
+// Weekly, because that is the unit a trip is actually lived in.
+//
+// A starting point for a family of four towing a van, not a recommendation.
+// Every line is editable and the ones that matter most, sites and food, are the
+// ones people's real numbers differ on the most. "Flights home" is here because
+// a FIFO family almost always has one leg of the year that has to be flown, and
+// a plan that forgets it is short by a couple of thousand dollars.
 export const DEFAULT_BUDGET: TravelBudget = {
-  Fuel: 0, 'Food & groceries': 1200, 'Caravan parks & camping': 1100, 'Vehicle servicing & tyres': 350,
-  'Caravan maintenance': 250, Insurance: 380, Registration: 130, 'Starlink & phone': 220,
-  'Entertainment & activities': 400, 'Medical & unexpected': 350, Storage: 120, 'Travel back to Mackay': 250,
-  'Child & family costs': 500, Miscellaneous: 350,
+  Fuel: 0, 'Food & groceries': 277, 'Caravan parks & camping': 254, 'Vehicle servicing & tyres': 81,
+  'Caravan maintenance': 58, Insurance: 88, Registration: 30, 'Starlink & phone': 51,
+  'Entertainment & activities': 92, 'Medical & unexpected': 81, Storage: 28, 'Flights home': 58,
+  'Child & family costs': 115, Miscellaneous: 81,
 };
 
 export const defaults: PlanInputs = {
-  houseSale: 750000, mortgage: 380000, tritonLoan: 22000, caravanLoan: 15000, assetSales: 25000,
-  sellingCosts: 22000, legalCosts: 3000, movingCosts: 6000, tritonSetup: 15000, replacementVan: 50000,
-  caravanSetup: 5000, travelSetup: 8000, repairReserve: 15000, landTarget: 200000, duration: 12,
-  budget: DEFAULT_BUDGET, dieselPrice: 2.3, towingConsumption: 18, kmPerMonth: 2500,
-  systemsNewClients: 1, systemsChurn: 3, systemsSetupFee: 1000, systemsSubscription: 250, systemsSupportCost: 20, systemsSoftwareCost: 25, systemsLabourCost: 45, systemsInitialClients: 2,
-  recruitmentPlacements: 0.15, recruitmentFee: 14000, recruitmentSuccess: 70, recruitmentRefundRisk: 10, recruitmentExpenses: 500,
-  youtubeRevenue: 0, sponsorship: 0, affiliate: 0, podcastSponsor: 0, productionCost: 300, contentGrowth: 5,
-  landPrice: 700000, landDeposit: 200000, buyingCosts: 25000, loanTerm: 30, landInterest: 6.5, landIncome: 120000, desiredEmergency: 30000, landType: 'Vacant rural land',
-  investmentType: 'High-interest savings', investmentReturn: 4.5, investmentTax: 32, inflation: 3, investmentYears: 2,
-  houseValue: 750000, homeInterest: 6.2, homeRepayment: 2500, rates: 2800, homeInsurance: 2200, maintenance: 4500, propertyGrowth: 5,
+  startingMoney: 40000,
+  duration: 12,
+  budget: DEFAULT_BUDGET, budgetPeriod: 'week', dieselPrice: 2.3, towingConsumption: 18,
+  kmPerMonth: 577, kmPerTravelDay: 400, travelDays: 1, legs: [], useRoute: false,
+  // Queensland Parks and Wildlife, published rate from 1 July 2026. Editable
+  // because fees move and every state sets its own, and a number baked into
+  // the code is a number that is quietly wrong two years from now.
+  party: 4, npPerPerson: 7.75, npFamilyCap: 31,
   tripWeeks: 3, tripFuelAdjustment: 0, tripGroceriesPerDay: 40, tripAccommodationNight: 45, tripAccommodationNights: 16,
 };
 
 export const aud = (value: number, compact = false) => new Intl.NumberFormat('en-AU', { style: 'currency', currency: 'AUD', maximumFractionDigits: 0, notation: compact ? 'compact' : 'standard' }).format(Number.isFinite(value) ? value : 0);
 export const num = (value: number) => new Intl.NumberFormat('en-AU', { maximumFractionDigits: 1 }).format(Number.isFinite(value) ? value : 0);
 
-export function fuelCost(p: PlanInputs) { return p.dieselPrice * (p.towingConsumption / 100) * p.kmPerMonth; }
-export function monthlyBudget(p: PlanInputs) { return Object.values(p.budget).reduce((a, b) => a + b, 0) + fuelCost(p); }
-export function startingCapital(p: PlanInputs) { return p.houseSale + p.assetSales; }
-export function afterDebts(p: PlanInputs) { return startingCapital(p) - p.sellingCosts - p.legalCosts - p.mortgage - p.tritonLoan - p.caravanLoan - p.movingCosts; }
-export function afterSetup(p: PlanInputs) { return afterDebts(p) - p.tritonSetup - p.replacementVan - p.caravanSetup - p.travelSetup - p.repairReserve; }
-export function systemsForMonth(p: PlanInputs, month: number) {
-  let clients = p.systemsInitialClients;
-  for (let i = 0; i < month; i++) clients = Math.max(0, clients * (1 - p.systemsChurn / 100) + p.systemsNewClients);
-  const setup = p.systemsNewClients * p.systemsSetupFee;
-  const recurring = clients * p.systemsSubscription;
-  const costs = clients * (p.systemsSupportCost + p.systemsSoftwareCost + p.systemsLabourCost);
-  return { clients, setup, recurring, costs, profit: setup + recurring - costs };
+// Fuel, from how a trip is actually driven.
+//
+// Nobody tows 400 kilometres a day, seven days a week. You move, then you sit
+// somewhere for a few days. So the distance is what a driving day looks like,
+// and the other number is how many driving days there are in the period. Those
+// two are things somebody can answer; kilometres a month is a number they would
+// have to work out, and working it out is where it goes wrong.
+export function kmPerPeriod(p: PlanInputs) {
+  if (p.kmPerTravelDay == null || p.travelDays == null) return p.kmPerMonth ?? 0;
+  return p.kmPerTravelDay * p.travelDays;
 }
-export function recruitmentProfit(p: PlanInputs) { return p.recruitmentPlacements * p.recruitmentFee * (p.recruitmentSuccess / 100) * (1 - p.recruitmentRefundRisk / 100) - p.recruitmentExpenses; }
-export function contentProfit(p: PlanInputs, month: number) { const gross = (p.youtubeRevenue + p.sponsorship + p.affiliate + p.podcastSponsor) * Math.pow(1 + p.contentGrowth / 100, month); return gross - p.productionCost; }
+
+// A national park night, by the published rule.
+//
+// Per person, with a family cap: five people at 7.75 is 38.75, and the cap
+// makes it 31. Getting that wrong overstates a lap around Queensland by
+// hundreds, which is the sort of error that quietly changes a decision.
+export function nationalParkNight(p: PlanInputs) {
+  const party = Math.max(1, Number(p.party) || 1);
+  const perPerson = Number(p.npPerPerson) || 0;
+  const cap = Number(p.npFamilyCap) || 0;
+  const full = party * perPerson;
+  return cap > 0 ? Math.min(full, cap) : full;
+}
+
+export function nightlyFor(leg: Leg, p: PlanInputs) {
+  return leg.nationalPark ? nationalParkNight(p) : (Number(leg.nightly) || 0);
+}
+
+export function routeTotals(p: PlanInputs) {
+  const legs = p.legs ?? [];
+  const km = legs.reduce((a, leg) => a + (Number(leg.km) || 0), 0);
+  const nights = legs.reduce((a, leg) => a + (Number(leg.nights) || 0), 0);
+  const stay = legs.reduce((a, leg) => a + (Number(leg.nights) || 0) * nightlyFor(leg, p), 0);
+  const fuel = p.dieselPrice * (p.towingConsumption / 100) * km;
+  // A trip that is 40 nights long is 40 nights long, however many months the
+  // plan runs for. Spreading it over the whole duration would understate what
+  // the road actually costs while you are on it.
+  const weeks = Math.max(nights / 7, 1 / 7);
+  return {
+    legs: legs.length, km, nights, stay, fuel,
+    total: stay + fuel,
+    perWeek: (stay + fuel) / weeks,
+    perNight: nights ? (stay + fuel) / nights : 0,
+  };
+}
+
+export function fuelCost(p: PlanInputs) {
+  const perPeriod = p.dieselPrice * (p.towingConsumption / 100) * kmPerPeriod(p);
+  return toMonthly(perPeriod, p.budgetPeriod ?? 'month');
+}
+
+export function weeklyFuelCost(p: PlanInputs) {
+  return toWeekly(fuelCost(p), 'month');
+}
+
+// Everything downstream works in months. This is the one place the weekly
+// numbers become monthly ones.
+export function budgetTotal(p: PlanInputs) {
+  return Object.values(p.budget).reduce((a, b) => a + b, 0);
+}
+
+export function monthlyBudget(p: PlanInputs) {
+  return toMonthly(budgetTotal(p), p.budgetPeriod ?? 'month') + fuelCost(p);
+}
+
+export function weeklyBudget(p: PlanInputs) {
+  return toWeekly(monthlyBudget(p), 'month');
+}
+
+// How long the money lasts, in months, with nothing coming in.
+//
+// No income side any more. If something is earned on the road it lengthens
+// this, and guessing at how much was the least reliable part of the old plan.
+export function runwayMonths(p: PlanInputs) {
+  const burn = monthlyBudget(p);
+  return burn > 0 ? p.startingMoney / burn : 0;
+}
+
 export function buildProjection(p: PlanInputs, months = 60) {
-  const initial = afterSetup(p); const burn = monthlyBudget(p); let cash = initial; const rows = [] as { month: number; cash: number; income: number; flow: number; clients: number; landFund: number }[];
-  for (let m = 1; m <= months; m++) { const sys = systemsForMonth(p, m); const income = sys.profit + recruitmentProfit(p) + contentProfit(p, m); const flow = income - burn; cash += flow; rows.push({ month: m, cash, income, flow, clients: sys.clients, landFund: Math.max(0, Math.min(p.landTarget, cash)) }); }
+  const burn = monthlyBudget(p);
+  let cash = p.startingMoney;
+  const rows = [] as { month: number; cash: number; spent: number }[];
+  for (let m = 1; m <= months; m++) {
+    cash -= burn;
+    rows.push({ month: m, cash, spent: burn * m });
+  }
   return rows;
 }
-export function monthlyLoanPayment(principal: number, annualRate: number, years: number) { const r = annualRate / 100 / 12; const n = years * 12; return r === 0 ? principal / n : principal * (r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1); }
-export function landMetrics(p: PlanInputs, price = p.landPrice) { const deposit = Math.min(p.landDeposit, price); const loan = Math.max(0, price - deposit); const payment = monthlyLoanPayment(loan, p.landInterest, p.loanTerm); return { deposit, loan, payment, interest: payment * p.loanTerm * 12 - loan, lvr: loan / price * 100, cashLeft: afterSetup(p) - deposit - p.buyingCosts }; }
-export function investmentMetrics(p: PlanInputs) { const rate = p.investmentReturn / 100; const gross = p.landTarget * Math.pow(1 + rate, p.investmentYears); const earned = gross - p.landTarget; const afterTax = p.landTarget + earned * (1 - p.investmentTax / 100); return { gross, afterTax, real: afterTax / Math.pow(1 + p.inflation / 100, p.investmentYears), earned }; }
-export function homeBalance(p: PlanInputs, months: number) { let bal = p.mortgage; const r = p.homeInterest / 100 / 12; for (let i = 0; i < months; i++) bal = Math.max(0, bal * (1 + r) - p.homeRepayment); return bal; }
-
-export const scenarios = [
-  { name: 'Worst case', description: 'Income stays near zero; costs +15%; softer sale and repairs.', adjust: (p: PlanInputs) => ({ ...p, houseSale: p.houseSale - 50000, repairReserve: p.repairReserve + 15000, budget: Object.fromEntries(Object.entries(p.budget).map(([k,v]) => [k,v * 1.15])), systemsNewClients: 0, recruitmentPlacements: 0, contentGrowth: 0 }) },
-  { name: 'Conservative', description: 'Small systems growth, occasional recruitment, controlled costs.', adjust: (p: PlanInputs) => ({ ...p, systemsNewClients: 0.5, recruitmentPlacements: 0.12, contentGrowth: 0 }) },
-  { name: 'Target', description: 'Steady client signing, periodic placements and modest content revenue.', adjust: (p: PlanInputs) => ({ ...p, systemsNewClients: 2, recruitmentPlacements: 0.25, sponsorship: 500, contentGrowth: 8 }) },
-  { name: 'Strong growth', description: 'Recurring systems revenue meets travel costs and growth compounds.', adjust: (p: PlanInputs) => ({ ...p, systemsNewClients: 4, recruitmentPlacements: 0.5, sponsorship: 1000, youtubeRevenue: 400, affiliate: 300, contentGrowth: 12 }) },
-];

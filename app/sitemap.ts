@@ -21,7 +21,13 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const fixed: MetadataRoute.Sitemap = [
     { url: SITE, changeFrequency: "daily", priority: 1 },
     { url: `${SITE}/guides`, changeFrequency: "weekly", priority: 0.7 },
-    { url: `${SITE}/planner`, changeFrequency: "monthly", priority: 0.5 },
+    // The two tools. They earn links and they answer a question somebody typed
+    // into a search box, which an article about rosters does not, so they sit
+    // above the category pages rather than at the bottom. The mine map was
+    // missing from here entirely, which meant the one page most likely to be
+    // found was the one nothing pointed a crawler at.
+    { url: `${SITE}/mines`, changeFrequency: "monthly", priority: 0.9 },
+    { url: `${SITE}/planner`, changeFrequency: "monthly", priority: 0.9 },
   ];
 
   try {
