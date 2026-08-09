@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default function MinesPage() {
   return (
-    <main style={{ maxWidth: 1180, margin: "0 auto", padding: "40px 20px 90px" }}>
+    <main className="tool-page" style={{ maxWidth: 1180, margin: "0 auto", padding: "40px 20px 90px" }}>
       <p style={{
         fontSize: 12, letterSpacing: ".2em", textTransform: "uppercase",
         color: "#e8721c", fontWeight: 700, margin: "0 0 8px",

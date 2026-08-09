@@ -33,12 +33,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 function Header() {
   return (
     <header style={{ borderBottom: "2px solid #e5e7eb", background: "#fff", position: "sticky", top: 0, zIndex: 50, boxShadow: "0 1px 4px rgba(0,0,0,0.05)" }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
+      <div className="site-header-inner" style={{ maxWidth: 1200, margin: "0 auto", padding: "0 24px", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
         <a href="/" style={{ display: "flex", alignItems: "center", gap: 10 }}>
           <div style={{ background: "#1a56db", color: "#fff", fontFamily: "system-ui, sans-serif", fontWeight: 900, fontSize: 18, padding: "4px 10px", borderRadius: 4, letterSpacing: "-0.02em" }}>FIFO</div>
           <span style={{ fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 18, color: "#111" }}>Life</span>
         </a>
-        <nav style={{ display: "flex", gap: 28, fontFamily: "system-ui, sans-serif", fontSize: 14, fontWeight: 500, color: "#374151" }}>
+        <nav className="site-nav" style={{ display: "flex", gap: 28, fontFamily: "system-ui, sans-serif", fontSize: 14, fontWeight: 500, color: "#374151" }}>
           {["Money", "Relationships", "Health", "Career", "Mine Map", "Trip Planner", "Guides"].map(cat => (
             <a key={cat}
               href={
@@ -58,7 +58,7 @@ function Header() {
 function Footer() {
   return (
     <footer style={{ borderTop: "1px solid #e5e7eb", background: "#111827", color: "#9ca3af", marginTop: 80 }}>
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "48px 24px 32px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 40 }}>
+      <div className="site-footer-grid" style={{ maxWidth: 1200, margin: "0 auto", padding: "48px 24px 32px", display: "grid", gridTemplateColumns: "1fr 1fr 1fr", gap: 40 }}>
         <div>
           <div style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 16 }}>
             <div style={{ background: "#1a56db", color: "#fff", fontFamily: "system-ui, sans-serif", fontWeight: 900, fontSize: 16, padding: "3px 8px", borderRadius: 3 }}>FIFO</div>

@@ -59,7 +59,7 @@ export default async function HomePage() {
     <>
       {/* Hero */}
       <section style={{ borderBottom: "1px solid #e5e7eb", background: "#f9fafb" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "48px 24px", display: "grid", gridTemplateColumns: "1fr 420px", gap: 48, alignItems: "center" }}>
+        <div className="home-hero" style={{ maxWidth: 1200, margin: "0 auto", padding: "48px 24px", display: "grid", gridTemplateColumns: "1fr 420px", gap: 48, alignItems: "center" }}>
           <div>
             <div style={{ display: "inline-block", background: CATEGORY_COLORS[featured.category] ?? "#1a56db", color: "#fff", fontFamily: "system-ui, sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "3px 10px", borderRadius: 3, marginBottom: 16 }}>
               {featured.category}
@@ -108,7 +108,7 @@ export default async function HomePage() {
           </div>
         </div>
 
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
+        <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 32 }}>
           {rest.map(article => (
             <ArticleCard key={article.id} article={article} />
           ))}

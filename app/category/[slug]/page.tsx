@@ -49,7 +49,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ slug:
           <p style={{ fontSize: "1.1rem" }}>Articles coming soon — we're working on it.</p>
         </div>
       ) : (
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 36 }}>
+        <div className="grid-3" style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 36 }}>
           {articles.map(a => (
             <article key={a.id} style={{ borderBottom: "1px solid #e5e7eb", paddingBottom: 28 }}>
               <div style={{ color, fontFamily: "system-ui, sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 10 }}>{a.category}</div>

@@ -17,3 +17,107 @@ h1, h2, h3, h4 {
 
 a { color: inherit; text-decoration: none; }
 img { max-width: 100%; display: block; }
+
+/* ── Phones ────────────────────────────────────────────────────────────────
+   The site was built with React inline styles, which cannot carry a media
+   query, so every width and column count was fixed at whatever suited a
+   laptop. On a phone the nav ran off the side, the hero carried a 420px
+   column next to a flexible one, and the footer held three columns in
+   375px of screen.
+
+   Inline styles beat a class selector, so these overrides have to say so.
+   That is not a habit worth spreading, it is the price of retrofitting
+   responsiveness onto styles that live on the elements themselves. Anything
+   built from here should use classes and skip the shouting. */
+
+@media (max-width: 900px) {
+  .home-hero {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+    padding: 32px 18px !important;
+  }
+  .grid-3 { grid-template-columns: repeat(2, 1fr) !important; gap: 22px !important; }
+  .site-footer-grid { grid-template-columns: 1fr 1fr !important; gap: 28px !important; }
+}
+
+@media (max-width: 640px) {
+  /* One column, everywhere. Two columns of article cards on a phone gives you
+     a headline three words wide and a thumbnail nobody can read. */
+  .grid-3 { grid-template-columns: 1fr !important; gap: 26px !important; }
+  .site-footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 30px !important;
+    padding: 34px 18px 24px !important;
+  }
+
+  /* The nav scrolls sideways rather than wrapping onto three lines or being
+     hidden behind a hamburger nobody taps. Seven items, and the ones past the
+     edge are reachable with a thumb flick. */
+  .site-header-inner { padding: 0 14px !important; gap: 14px; }
+  .site-nav {
+    gap: 18px !important;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    white-space: nowrap;
+    margin-left: 8px;
+  }
+  .site-nav::-webkit-scrollbar { display: none; }
+  .site-nav a { flex: 0 0 auto; padding: 6px 0; }
+
+  .home-hero { padding: 26px 16px !important; }
+
+  /* Nothing on a phone should need a sideways scroll to read.
+
+     clip rather than hidden, and on both html and body. overflow:hidden on the
+     body turns it into a scroll container, which silently kills the sticky
+     header, and on its own it does not reliably stop the page sliding anyway.
+     clip stops the slide without creating the container. */
+  html, body { overflow-x: clip; max-width: 100%; }
+  table { display: block; overflow-x: auto; max-width: 100%; }
+
+  /* The usual suspect once the widths are all sane: something with no space in
+     it, a long URL or a place name, forcing its parent wider than the screen. */
+  body { overflow-wrap: anywhere; word-break: normal; }
+
+  /* Belt and braces on the tool pages, where the map and its panels are the
+     widest things on the site. */
+  .tool-page, .tool-page * { max-width: 100%; }
+  .tool-page .planner main { max-width: 100%; padding-left: 10px; padding-right: 10px; }
+
+  /* Body copy that was sized for a wide column. */
+  body { font-size: 17px; }
+}
+
+/* The two tool pages. They sit inside the site container and then the tool
+   inside them adds its own padding again, so on a phone the map ended up with
+   roughly 44px of dead margin either side, on the screen that has the least to
+   spare. Let the tool run closer to the edges. */
+@media (max-width: 640px) {
+  .tool-page { padding: 24px 12px 60px !important; }
+  .tool-page .planner main { padding: 16px 10px 40px; }
+  .tool-page .card { padding: 14px; }
+
+  /* Label above box, box full width. A 115px input pinned right, with
+     "Caravan parks & camping" on the left, leaves a field you cannot read and
+     one you can barely tap. */
+  .tool-page .field { display: block; padding: 10px 0; }
+  .tool-page .field > span { display: block; margin-bottom: 6px; }
+  .tool-page .field > div { width: 100%; }
+  .tool-page .field input,
+  .tool-page .field select { width: 100%; text-align: left; padding: 11px 10px; }
+
+  /* Leg rows: the two town boxes on their own line, then the buttons in a row
+     that wraps, each big enough to hit with a thumb. */
+  .tool-page .leg-line input { min-width: 0; flex: 1 1 100%; }
+  .tool-page .leg-line button { flex: 1 1 auto; min-height: 42px; }
+  .tool-page .leg-line .arrow { display: none; }
+  .tool-page .leg-line.numbers label { flex: 1 1 45%; }
+  .tool-page .leg-line.numbers input { max-width: none; width: 100%; }
+  .tool-page .leg-cost { margin-left: 0; width: 100%; padding-top: 6px; }
+
+  /* Tap targets. 10px of padding on a 13px font is a button you miss. */
+  .tool-page .planner button { min-height: 42px; }
+  .tool-page .stepper button { min-height: 38px; width: 38px; }
+}
