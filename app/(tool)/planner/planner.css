@@ -1,0 +1,771 @@
+.planner{--bg:#f5f7f6;--paper:#fff;--ink:#10231e;--muted:#64716d;--line:#dce4e0;--accent:#0d765c;--mint:#3ee6b2;--soft:#e5f6ee;min-height:100vh;background:var(--bg);color:var(--ink);font-family:Arial,sans-serif}.planner.dark{--bg:#0a1411;--paper:#101e1a;--ink:#edf7f2;--muted:#9bb0a8;--line:#20342d;--accent:#66d4ad;--soft:#142d25}.planner *{box-sizing:border-box}.top,main,.tabs,.planner footer{max-width:1240px;margin:auto}.top{padding:40px 24px 26px;display:flex;justify-content:space-between;gap:24px;align-items:end}.back,.eyebrow{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:800}.top h1{margin:5px 0 2px;font-size:clamp(30px,5vw,52px);letter-spacing:-.05em}.top em{font-family:Georgia,serif;font-weight:400}.top p,.sub{color:var(--muted);margin:0}.actions{display:flex;flex-wrap:wrap;justify-content:end;gap:8px}.planner button{background:var(--paper);color:var(--ink);border:1px solid var(--line);padding:10px 13px;border-radius:9px;font-weight:700;cursor:pointer}.planner button.primary{background:var(--accent);color:#fff;border-color:var(--accent)}.tabs{padding:0 24px;border-bottom:1px solid var(--line);display:flex;gap:4px;overflow:auto}.tabs button{border:0;border-radius:0;padding:14px;background:transparent;color:var(--muted);white-space:nowrap}.tabs button.active{color:var(--ink);border-bottom:2px solid var(--accent)}main{padding:28px 24px 55px}.hero{display:flex;gap:28px;justify-content:space-between;background:var(--paper);border:1px solid var(--line);padding:28px;border-radius:16px;margin-bottom:16px}.hero h2{font-size:25px;margin:6px 0}.status{min-width:220px;padding:16px;border-radius:12px;background:var(--soft);display:flex;flex-direction:column;justify-content:center}.status strong{font-size:25px;margin:4px 0}.status small{color:var(--muted)}.green{color:#19a777!important}.amber{color:#d18b23!important}.red{color:#e05858!important}.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}.metric{display:flex;flex-direction:column;gap:5px}.metric span{font-size:12px;color:var(--muted)}.metric strong{font-size:20px;letter-spacing:-.03em}.metrics>.metric{padding:17px;background:var(--paper);border:1px solid var(--line);border-radius:12px}.grid{display:grid;gap:16px;margin-bottom:16px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.card{background:var(--paper);border:1px solid var(--line);padding:22px;border-radius:15px;margin-bottom:16px}.grid .card{margin:0}.card h2{font-size:16px;margin:0 0 18px}.card h3{margin:8px 0;font-size:19px}.allocation,.bar{height:19px;background:var(--soft);border-radius:10px;overflow:hidden}.allocation>div,.bar>div{height:100%;background:var(--accent);border-radius:10px}.legend{display:flex;gap:18px;flex-wrap:wrap;font-size:12px;margin:12px 0 17px;color:var(--muted)}.legend i{display:inline-block;width:9px;height:9px;background:#a6beb4;border-radius:50%;margin-right:4px}.legend .land{background:var(--accent)}.waterfall{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;border-top:1px solid var(--line);padding-top:14px}.chart{width:100%;height:200px;background:linear-gradient(to bottom,transparent 24%,var(--line) 25%,transparent 26%,transparent 49%,var(--line) 50%,transparent 51%,transparent 74%,var(--line) 75%,transparent 76%)}.chart-labels{display:flex;justify-content:space-between;color:var(--muted);font-size:11px}.inline-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:17px}.answers{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}.answers>div{border-left:2px solid var(--accent);padding-left:12px}.answers span{color:var(--accent);font-weight:800}.answers p{font-size:13px;color:var(--muted);margin:5px 0}.answers b{font-size:14px}.duration{display:flex;gap:6px;margin-bottom:18px;flex-wrap:wrap}.duration .selected{background:var(--accent);color:#fff}.field{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}.field>span{color:var(--muted)}.field>div{display:flex;align-items:center;background:var(--bg);border-radius:7px;padding-left:8px}.field i{font-style:normal;color:var(--muted);font-size:12px}.field input,.field select{border:0;outline:0;width:115px;background:transparent;color:var(--ink);padding:8px;font:inherit;text-align:right}.field select{width:200px;text-align:left;background:var(--bg);border:1px solid var(--line);border-radius:7px}.callout{margin-top:17px;padding:15px;background:var(--soft);border-radius:10px;display:grid;grid-template-columns:repeat(2,1fr);gap:14px}.scenario-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.scenario{border:1px solid var(--line);padding:16px;border-radius:11px}.scenario p{min-height:52px;font-size:13px;color:var(--muted)}.scenario .metric{margin:12px 0}.scenario button{width:100%;margin-top:8px}.saved{display:flex;gap:9px;flex-wrap:wrap}.saved button{display:flex;flex-direction:column;text-align:left}.saved small{color:var(--muted);margin-top:4px}.warning{font-size:12px;color:#a86c13;background:#fff5df;padding:12px;border-radius:8px;margin-top:18px}.dark .warning{background:#342a13;color:#f1cf83}.compact{grid-template-columns:repeat(3,1fr)}.comparison{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:26px 0}.comparison>div{padding:16px;background:var(--soft);border-radius:10px;display:grid;gap:4px}.comparison span,.comparison small{color:var(--muted);font-size:12px}.comparison strong{font-size:19px}.planner footer{padding:25px 24px;color:var(--muted);font-size:12px;border-top:1px solid var(--line)}@media(max-width:800px){.top,.hero{display:block}.actions{justify-content:start;margin-top:18px}.metrics,.scenario-grid{grid-template-columns:repeat(2,1fr)}.grid.two,.grid.three,.answers{grid-template-columns:1fr}.card{padding:16px}.waterfall,.inline-metrics{grid-template-columns:repeat(2,1fr)}.status{margin-top:18px}.comparison{grid-template-columns:1fr}}@media print{.top .actions,.tabs,.back{display:none}.planner,.planner.dark{--bg:#fff;--paper:#fff;--ink:#111;--muted:#555;--line:#ddd}.card,.hero{break-inside:avoid}.planner{font-size:12px}main{padding:12px}.chart{height:130px}}
+
+/* Weekly entry. The period switch and the two totals sit together, because the
+   whole point is seeing the week and the month at the same time. */
+.period-row { margin: 14px 0 4px; }
+.period-row .sub { margin-top: 8px; }
+.totals-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 14px 0 18px; }
+
+/* The route: legs, and what is around the far end of each one. */
+.legs { display: grid; gap: 14px; margin: 14px 0 18px; }
+.leg { border: 1px solid rgba(255,255,255,.12); border-radius: 12px; padding: 12px; }
+.leg-line { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+.leg-line input { flex: 1; min-width: 110px; padding: 8px 10px; border-radius: 8px; border: 1px solid rgba(255,255,255,.16); background: rgba(0,0,0,.2); color: inherit; }
+.leg-line .arrow { opacity: .6; font-size: .8rem; }
+.leg-line.numbers { margin-top: 8px; }
+.leg-line.numbers label { display: flex; align-items: center; gap: 6px; font-size: .78rem; opacity: .8; }
+.leg-line.numbers input { max-width: 92px; flex: none; }
+.leg-cost { margin-left: auto; font-weight: 700; }
+.leg-note { font-size: .78rem; opacity: .7; margin: 8px 0 0; }
+.ghost.danger { opacity: .6; }
+.around { display: grid; grid-template-columns: repeat(auto-fit,minmax(160px,1fr)); gap: 12px; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(255,255,255,.1); }
+.around-col p { margin: 4px 0; font-size: .8rem; }
+.around-col em { opacity: .6; font-style: normal; font-size: .74rem; }
+.around-col .none { opacity: .45; }
+.around-note { grid-column: 1 / -1; font-size: .72rem; opacity: .55; margin: 4px 0 0; }
+
+/* The map, which is the point of the thing.
+   Sized off the viewport so it fills the screen on a laptop and still leaves
+   room for a thumb on a phone. The card around it gives up its padding so the
+   map runs to the edges. */
+.map-card { padding: 10px; }
+
+/* Why the map used to cut through the page.
+   Leaflet gives its own panes z-index 400 and its controls up to 1000, and it
+   does that against whatever stacking context it finds itself in. Left at the
+   top level those numbers beat the site header, which sits at 50 — so the
+   moment you scrolled, tiles painted straight over the header and anything
+   else that overlapped. Isolating the wrapper makes the whole Leaflet subtree
+   render inside one context of its own, so 1000 only ever means "on top of the
+   other bits of the map". Nothing about the map needs to escape its own box. */
+.map-wrap { margin: 0 0 10px; position: relative; z-index: 0; isolation: isolate; }
+.map { height: min(78vh, 900px); min-height: 520px; border-radius: 12px; overflow: hidden; background: rgba(255,255,255,.04); }
+.map.skeleton { display: block; }
+.leaflet-container { background: #0f172a; font: inherit; }
+/* Leaflet's panes must keep their own numbers — 200 tiles, 400 vectors, 500
+   shadows, 600 markers, 700 popups — because that ordering is what puts a
+   price pin above the road it sits on. Flattening them here would fix the
+   header and break the map. The isolate above already does the whole job. */
+
+/* Diesel, priced on the map.
+   A pill with a tail, so it hangs above the servo instead of covering it. The
+   colour carries the meaning at a glance and the number confirms it. */
+.pricepin {
+  position: relative; display: flex; align-items: center; justify-content: center;
+  min-width: 52px; height: 26px; padding: 0 8px; border-radius: 7px;
+  background: var(--pin); color: #08131f;
+  font: 800 13px/1 ui-sans-serif, system-ui, sans-serif; font-variant-numeric: tabular-nums;
+  letter-spacing: -.01em; white-space: nowrap;
+  box-shadow: 0 2px 6px rgba(0,0,0,.45), 0 0 0 1.5px rgba(255,255,255,.55);
+}
+.pricepin::after {
+  content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%);
+  border: 5px solid transparent; border-top-color: var(--pin);
+  filter: drop-shadow(0 1.5px 0 rgba(255,255,255,.5));
+}
+/* Cheapest in the district. Bigger, ringed, and it sits on top where pins
+   overlap, because it is the one worth driving to. */
+.pricepin.best {
+  min-width: 58px; height: 30px; font-size: 14.5px; border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0,0,0,.5), 0 0 0 2.5px #fff, 0 0 0 5px rgba(62,230,178,.45);
+}
+.pricepin.best::after { border-width: 6px; }
+
+.leaflet-tooltip.pump-tip {
+  background: #0b1220; color: #e2e8f0; border: 1px solid rgba(255,255,255,.16);
+  border-radius: 8px; padding: 8px 10px; font-size: 12.5px; line-height: 1.45;
+  box-shadow: 0 8px 24px rgba(0,0,0,.5); white-space: nowrap;
+}
+.leaflet-tooltip.pump-tip::before { border-top-color: rgba(255,255,255,.16); }
+.key-price { flex-basis: 100%; }
+.key-pin {
+  width: 16px !important; height: 11px !important; border-radius: 3px !important;
+  background: linear-gradient(90deg, #3ee6b2 0 50%, #ef4444 50% 100%);
+}
+.map-key { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 10px; font-size: .74rem; opacity: .75; }
+.map-key span { display: inline-flex; align-items: center; gap: 6px; }
+.map-key i { width: 9px; height: 9px; border-radius: 50%; display: inline-block; }
+@media (max-width: 640px) {
+  .map { height: 68vh; min-height: 380px; }
+  .pricepin { min-width: 46px; height: 24px; font-size: 12px; padding: 0 7px; }
+  .pricepin.best { min-width: 52px; height: 27px; font-size: 13px; }
+  .leaflet-tooltip.pump-tip { font-size: 11.5px; white-space: normal; max-width: 62vw; }
+}
+
+/* Under the map: what it does, and how far out to look. */
+.town-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 4px 6px 2px; }
+.radius { display: inline-flex; align-items: center; gap: 8px; font-size: .78rem; opacity: .8; }
+.radius select { background: var(--bg); color: var(--ink); border: 1px solid var(--line); border-radius: 7px; padding: 6px 8px; font: inherit; }
+
+/* Things to do, which is the answer to the question actually being asked. */
+.things { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 10px; margin-bottom: 4px; }
+.thing { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; display: grid; gap: 2px; }
+.thing-name { font-weight: 700; font-size: .9rem; }
+.thing em { font-style: normal; font-size: .74rem; opacity: .65; }
+.thing-hours { opacity: .45 !important; }
+.town .around { border-top: 1px solid var(--line); margin-top: 16px; padding-top: 14px; }
+
+/* The price book: a remembered rate reads as yours, not the map's. */
+.around-col .place { display: grid; gap: 2px; margin: 8px 0; }
+.around-col .place > span { font-weight: 600; }
+.ghost.tiny { padding: 3px 8px; font-size: .68rem; border-radius: 6px; justify-self: start; margin-top: 2px; }
+
+/* The national park rule, and the legs that use it. */
+.np-rule { margin: 4px 0 18px; padding: 14px; border: 1px solid rgba(255,255,255,.12); border-radius: 12px; }
+.np-rule .sub { margin: 10px 0 0; }
+.np-tick { display: inline-flex; align-items: center; gap: 6px; font-size: .78rem; opacity: .85; }
+.np-tick input { width: auto; }
+.np-night { font-size: .78rem; opacity: .85; padding: 6px 0; }
+
+.picking { margin-top: 10px; font-size: .82rem; color: #3ee6b2; font-weight: 600; }
+
+/* Sitting inside fifolife.au rather than on its own.
+   The standalone version owns the whole window: full height, its own
+   background, its own title. Here the site supplies the header, the footer and
+   the heading, so the planner gives up the parts that would be a second copy
+   of those. */
+.planner { min-height: auto; border-radius: 14px; overflow: hidden; }
+.top.embedded { padding: 18px 24px 0; justify-content: flex-end; }
+.top.embedded .actions { justify-content: flex-end; }
+@media (max-width: 800px) {
+  .top.embedded { padding: 14px 16px 0; display: block; }
+  .top.embedded .actions { justify-content: flex-start; margin-top: 0; }
+}
+
+/* Diesel, from the fuel price reporting scheme.
+   Given its own block above the map data because it is the biggest number in a
+   towing budget and the only one that moves while you are on the road. Two
+   figures do the work: the best price near the stop, and the average, which is
+   the one to actually budget on. */
+.diesel { border: 1px solid rgba(62,230,178,.28); background: rgba(62,230,178,.06); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
+.diesel-head { display: flex; flex-wrap: wrap; gap: 18px 32px; align-items: flex-start; }
+.diesel-best, .diesel-avg { display: grid; gap: 2px; }
+.diesel-head strong { font-size: 1.9rem; font-weight: 700; line-height: 1.05; letter-spacing: -.02em; }
+.diesel-best strong { color: #3ee6b2; }
+.diesel-head strong i { font-style: normal; font-size: .82rem; opacity: .6; margin-left: 2px; }
+.diesel-head em { font-style: normal; font-size: .76rem; opacity: .7; }
+.diesel-use { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
+
+.diesel-list { display: grid; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
+.pump { display: grid; grid-template-columns: 74px 1fr; gap: 2px 12px; margin: 0; align-items: baseline; }
+.pump-price { font-weight: 700; font-variant-numeric: tabular-nums; }
+.pump-name { font-weight: 600; font-size: .86rem; }
+.pump em { grid-column: 2; font-style: normal; font-size: .72rem; opacity: .6; }
+
+@media (max-width: 800px) {
+  .diesel-head strong { font-size: 1.5rem; }
+  .diesel-head { gap: 14px 20px; }
+  .pump { grid-template-columns: 66px 1fr; }
+}
+
+/* Places travellers add.
+   Marked so nobody mistakes a stranger's tip for surveyed data, and put above
+   the mapped list because somebody has actually been there. */
+.mine-add { border: 1px dashed rgba(255,255,255,.18); border-radius: 12px; padding: 12px 14px; margin-bottom: 14px; }
+.mine-add-row { display: flex; flex-wrap: wrap; gap: 8px 12px; align-items: center; }
+.mine-add-row .sub { margin: 0; flex: 1 1 220px; }
+.mine-form { display: grid; gap: 10px; }
+.mine-fields { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+.mine-fields input { width: 100%; }
+.mine-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.mine-form .sub { margin: 0; }
+.add-error { color: #fca5a5 !important; opacity: 1 !important; }
+
+.yours {
+  font-size: .58rem; letter-spacing: .1em; text-transform: uppercase; font-weight: 800;
+  padding: 2px 6px; border-radius: 5px; margin-left: 6px; vertical-align: middle;
+  background: rgba(255,255,255,.14); color: #fff;
+}
+.thing.mine, .place.from-travellers { border-left: 2px solid rgba(255,255,255,.4); padding-left: 10px; }
+.mine-things { margin-bottom: 4px; }
+
+
+/* The home screen offer. One line, dismissable, and gone for good once it is. */
+.install {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin: 0 0 14px; padding: 12px 14px; border-radius: 12px;
+  border: 1px solid rgba(62,230,178,.3); background: rgba(62,230,178,.07);
+}
+.install-icon {
+  width: 34px; height: 34px; border-radius: 9px; flex: 0 0 auto;
+  background: #0f172a url('/planner-icon-192.png') center/cover;
+  box-shadow: 0 2px 8px rgba(0,0,0,.4);
+}
+.install-copy { display: grid; gap: 2px; flex: 1 1 220px; min-width: 0; }
+.install-copy b { font-size: .9rem; }
+.install-copy span { font-size: .76rem; opacity: .7; }
+
+/* Installed, and running as its own app.
+   The site header and footer are navigation for a magazine. Inside a home
+   screen app they are a menu to somewhere else, so they come off, and the
+   space they used goes back to the tool. */
+@media (display-mode: standalone) {
+  body > header, body > footer { display: none !important; }
+  .tool-page {
+    padding-top: max(16px, env(safe-area-inset-top)) !important;
+    padding-bottom: max(28px, env(safe-area-inset-bottom)) !important;
+    padding-left: max(16px, env(safe-area-inset-left)) !important;
+    padding-right: max(16px, env(safe-area-inset-right)) !important;
+  }
+  .install { display: none; }
+}
+
+/* iPhone.
+   The planner grew up on a laptop and it showed: rows meant for a wide screen
+   were wrapping into columns one field wide, and the tab bar and the action
+   row each took a line of their own before you got to anything. */
+@media (max-width: 640px) {
+  .top.embedded .actions { flex-wrap: wrap; gap: 6px; }
+  .top.embedded .actions button { flex: 1 1 auto; font-size: .78rem; padding: 8px 10px; }
+  .totals-row { grid-template-columns: repeat(2, 1fr) !important; }
+  .trip-grid { grid-template-columns: 1fr !important; }
+  .around { grid-template-columns: 1fr !important; }
+  .leg-line { flex-wrap: wrap; gap: 6px; }
+  .leg-line input { min-width: 0; }
+  .hero { display: block; }
+  .hero .status { margin-top: 14px; }
+  .diesel-list { max-height: 46vh; overflow-y: auto; }
+  .mine-fields { grid-template-columns: 1fr; }
+}
+
+/* The leg number row.
+   Each label is one unit and never breaks inside itself. "$ a night" was
+   wrapping between the dollar sign and the words, which left a stray $ sitting
+   against the National park tickbox looking like a typo. */
+.leg-line.numbers label { white-space: nowrap; }
+.leg-line.numbers .np-tick { margin-left: 4px; }
+
+/* Type your own length, in the unit you think in. */
+.span-manual {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin-top: 4px; font-size: .8rem; color: var(--muted);
+}
+.span-manual input {
+  width: 74px; padding: 8px 10px; border-radius: 8px; text-align: right;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+}
+.span-manual select {
+  padding: 8px 10px; border-radius: 8px;
+  border: 1px solid var(--line); background: var(--bg); color: var(--ink);
+}
+.span-manual b { color: var(--ink); font-weight: 800; }
+
+/* A figure the plan works out for itself, sitting in a list of ones you type.
+   Same row shape so it lines up, no input so it is clear it is not a field. */
+.field.derived > div { padding: 8px 12px; }
+.field.derived b { font-weight: 800; }
+
+/* Where you have to fill.
+   Two columns: the town and why, then what it costs there. Reads down the page
+   as a sequence of stops, which is how the drive actually happens. */
+.fills { display: grid; gap: 10px; margin: 14px 0 4px; }
+.fill {
+  display: flex; gap: 16px; justify-content: space-between; align-items: flex-start;
+  flex-wrap: wrap; padding: 12px 14px; border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.12); background: rgba(255,255,255,.03);
+}
+.fill-where { display: grid; gap: 3px; flex: 1 1 240px; min-width: 0; }
+.fill-where strong { font-size: 1.05rem; letter-spacing: -.01em; }
+.fill-where em, .fill-cost em { font-style: normal; font-size: .76rem; opacity: .65; }
+.fill-cost { display: grid; gap: 2px; text-align: right; flex: 0 0 auto; }
+.fill-cost strong { font-size: 1.3rem; color: #3ee6b2; letter-spacing: -.02em; }
+.fill-servo { opacity: .5 !important; }
+
+@media (max-width: 640px) {
+  .fill { gap: 8px; }
+  .fill-cost { text-align: left; }
+}
+
+/* The strip that stays.
+   Not called .bar: the planner already had one of those for the little
+   progress meters, and a second rule of the same name inherited its 19px
+   height and clipped the tabs to a sliver.
+   Now the magazine header is gone from this page there is nothing above to
+   fight with, so the tabs can stick and the long tab can carry a row of jumps
+   under them. */
+.toolstrip {
+  position: sticky; top: 0; z-index: 20;
+  background: color-mix(in srgb, var(--bg) 92%, transparent);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  padding-top: env(safe-area-inset-top);
+}
+.toolstrip .tabs { border-bottom: 0; }
+
+.jump {
+  max-width: 1240px; margin: auto; display: flex; gap: 6px;
+  padding: 0 24px 10px; overflow-x: auto; scrollbar-width: none;
+}
+.jump::-webkit-scrollbar { display: none; }
+.jump button {
+  flex: 0 0 auto; padding: 6px 12px; border-radius: 999px; font-size: .76rem;
+  font-weight: 700; color: var(--muted); background: transparent;
+  border: 1px solid var(--line);
+}
+.jump button:hover { color: var(--ink); border-color: var(--accent); }
+
+/* Land the card below the bar rather than behind it. */
+.card[id^="sec-"] { scroll-margin-top: 104px; }
+
+@media (max-width: 640px) {
+  .jump { padding: 0 12px 8px; }
+  .card[id^="sec-"] { scroll-margin-top: 96px; }
+}
+
+/* ── The map, as the page ───────────────────────────────────────────────────
+   Taken from how WikiCamps does it, and the reason it reads so much better on
+   a phone is one decision: nothing sits above or below the map competing for
+   height. The search, the filters and the buttons float on top of it, so the
+   map gets the whole screen and the controls cost nothing. */
+
+.map-wrap { position: relative; isolation: isolate; }
+
+.map-top {
+  position: absolute; z-index: 500;
+  /* Clear of the notch and the status bar. viewportFit is cover, so on a phone
+     this actually resolves to something; on a laptop it is zero and the 14px
+     stands on its own. Without it the search sat under the clock. */
+  top: calc(14px + env(safe-area-inset-top));
+  left: 12px; right: 12px;
+  display: flex; gap: 10px;
+  pointer-events: none;
+}
+.map-search {
+  flex: 1 1 auto; display: flex; align-items: center; gap: 8px;
+  background: #fff; border-radius: 999px; padding: 0 6px 0 18px;
+  box-shadow: 0 4px 16px rgba(2, 8, 20, .28);
+  pointer-events: auto;
+}
+.map-search input {
+  flex: 1 1 auto; min-width: 0; border: 0; outline: none; background: none;
+  /* 16px or iOS zooms the whole page when it is focused, which on a map is
+     violent. */
+  font: inherit; font-size: 16px; color: #0b1220; padding: 13px 0;
+}
+.map-search input::placeholder { color: #7c8899; }
+.map-search button {
+  flex: 0 0 auto; width: 40px; height: 40px; border: 0; border-radius: 50%;
+  background: none; color: #33506e; display: grid; place-items: center; cursor: pointer;
+}
+
+
+.map-fabs {
+  position: absolute; z-index: 500; right: 12px; bottom: 84px;
+  display: grid; gap: 10px;
+}
+.fab {
+  width: 48px; height: 48px; border: 0; border-radius: 50%; cursor: pointer;
+  background: #12351f; color: #d7fbe6;
+  display: grid; place-items: center;
+  box-shadow: 0 5px 18px rgba(2, 8, 20, .34);
+}
+.fab:active { transform: scale(.94); }
+.fab-wait {
+  width: 17px; height: 17px; border-radius: 50%;
+  border: 2px solid rgba(215, 251, 230, .35); border-top-color: #d7fbe6;
+  animation: fab-spin .8s linear infinite;
+}
+@keyframes fab-spin { to { transform: rotate(360deg); } }
+
+/* The sheet under the map: how many of the things you have switched on are
+   inside the frame right now. Panning becomes a number going up instead of a
+   question about whether anything is being missed. */
+.map-count {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 13px 16px; margin-top: -1px;
+  background: #0e1626; border-top: 1px solid rgba(255,255,255,.08);
+  border-radius: 0 0 14px 14px;
+}
+.map-count b { font-size: 15px; font-variant-numeric: tabular-nums; }
+.map-count .muted { color: #8fa3bd; font-size: 12.5px; font-weight: 600; }
+
+/* The pins themselves. A teardrop with a mark in it, which needs no legend. */
+.teardrop {
+  display: grid; place-items: center;
+  width: 26px; height: 26px;
+  background: var(--pin);
+  border: 2px solid #fff;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow: 0 2px 6px rgba(2, 8, 20, .45);
+  font-size: 12px; line-height: 1;
+}
+.teardrop.big { width: 30px; height: 30px; font-size: 14px; }
+/* The drop is a circle with one square corner, rotated 45 degrees to point at
+   the ground. That rotation applies to everything inside it, so the mark is
+   turned back the other way or it sits on its side. */
+.teardrop > i {
+  display: block;
+  transform: rotate(45deg);
+  font-style: normal;
+  color: #10202f;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .4);
+}
+
+/* ── The bottom bar ─────────────────────────────────────────────────────────
+   Down where a thumb reaches, and fixed, so moving between the map and the run
+   never costs a scroll back to the top. */
+.tabbar {
+  position: fixed; z-index: 600; left: 0; right: 0; bottom: 0;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px;
+  background: #0b1220;
+  border-top: 1px solid rgba(255, 255, 255, .09);
+  padding: 6px max(8px, env(safe-area-inset-left))
+             calc(6px + env(safe-area-inset-bottom))
+             max(8px, env(safe-area-inset-right));
+  box-shadow: 0 -8px 24px -12px rgba(0, 0, 0, .9);
+}
+.tabbar button {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  min-height: 54px; padding: 7px 4px;
+  background: none; border: 0; cursor: pointer;
+  color: #8fa3bd; font: inherit; font-size: 11px; font-weight: 700;
+  border-radius: 13px;
+}
+.tabbar button.active { color: #3ee6b2; background: rgba(62, 230, 178, .12); }
+.tabbar button:active { transform: scale(.95); }
+
+/* Room for the bar, so the last card is not sitting under it. */
+.planner main { padding-bottom: calc(78px + env(safe-area-inset-bottom)); }
+
+/* The filter button, beside the search. A dot when the map is not showing
+   everything, which is the only state worth interrupting anybody about. */
+.map-filter {
+  flex: 0 0 auto; position: relative; pointer-events: auto;
+  width: 48px; height: 48px; border: 0; border-radius: 50%;
+  background: #fff; color: #33506e; cursor: pointer;
+  display: grid; place-items: center;
+  box-shadow: 0 4px 16px rgba(2, 8, 20, .28);
+}
+.map-filter .dot {
+  position: absolute; top: 9px; right: 9px;
+  width: 9px; height: 9px; border-radius: 50%;
+  background: #e0563a; border: 2px solid #fff;
+}
+
+/* The sheet it opens. Comes up from the bottom, because that is where the hand
+   already is and because a panel dropping from the top would cover the search
+   somebody just used. */
+.map-sheet-scrim {
+  position: absolute; inset: 0; z-index: 700;
+  background: rgba(4, 10, 20, .5);
+  display: flex; align-items: flex-end;
+  /* Above everything, including the count strip and the tabs, so nothing shows
+     through along the bottom edge of the sheet. */
+  touch-action: none;
+}
+.map-sheet-scrim .map-sheet { touch-action: auto; }
+.map-sheet {
+  width: 100%; background: #0e1626;
+  border-radius: 18px 18px 0 0;
+  /* Enough room at the bottom to clear the tab bar, which this sits over.
+     Without it the last filter in the list is under the tabs and cannot be
+     reached, which is the same as it not being there. */
+  padding: 8px 14px calc(88px + env(safe-area-inset-bottom));
+  /* dvh, not vh: on a phone vh is the tallest the viewport ever gets, so with
+     the browser chrome showing the bottom of the sheet sat underneath it. */
+  max-height: 78dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  /* Scrolling to the end of the sheet must not then start dragging the map
+     underneath it. */
+  overscroll-behavior: contain;
+  box-shadow: 0 -14px 40px -16px rgba(0, 0, 0, .9);
+  animation: sheet-up .22s ease both;
+}
+@keyframes sheet-up { from { transform: translateY(14%); opacity: .4; } to { transform: none; opacity: 1; } }
+.sheet-grip {
+  width: 42px; height: 4px; border-radius: 999px;
+  background: rgba(255, 255, 255, .22); margin: 4px auto 12px;
+}
+.sheet-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 4px 8px;
+}
+.sheet-head b { font-size: 16px; }
+.sheet-head button {
+  background: none; border: 0; cursor: pointer;
+  color: #3ee6b2; font: inherit; font-size: 14.5px; font-weight: 700;
+}
+.sheet-row {
+  display: flex; align-items: center; gap: 12px; width: 100%;
+  padding: 13px 4px; background: none; border: 0; cursor: pointer;
+  border-top: 1px solid rgba(255, 255, 255, .07);
+  color: inherit; font: inherit; text-align: left;
+}
+.sheet-swatch {
+  flex: 0 0 auto; width: 13px; height: 13px; border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, .5);
+}
+.sheet-name { flex: 1 1 auto; font-size: 15.5px; font-weight: 600; }
+.sheet-switch {
+  flex: 0 0 auto; width: 46px; height: 27px; border-radius: 999px;
+  background: rgba(255, 255, 255, .16); position: relative;
+  transition: background .16s ease;
+}
+.sheet-switch i {
+  position: absolute; top: 3px; left: 3px;
+  width: 21px; height: 21px; border-radius: 50%; background: #fff;
+  transition: transform .16s ease;
+}
+.sheet-switch.on { background: #2f9e6f; }
+.sheet-switch.on i { transform: translateX(19px); }
+.sheet-note {
+  margin: 12px 4px 0; font-size: 12.5px; line-height: 1.55; color: #8fa3bd;
+}
+
+/* A site, opened. */
+.site-facts { margin: 2px 4px 10px; font-size: 13.5px; font-weight: 700; color: #8fa3bd; }
+.site-call {
+  display: inline-block; margin: 0 4px 12px;
+  background: #12351f; color: #b8f5cf; text-decoration: none;
+  font-size: 14.5px; font-weight: 700; padding: 11px 18px; border-radius: 12px;
+}
+.site-shots {
+  display: grid; grid-auto-flow: column; grid-auto-columns: 62%;
+  gap: 10px; overflow-x: auto; padding: 2px 4px 6px;
+  scroll-snap-type: x mandatory; scrollbar-width: none;
+  /* No touch-action here on purpose. It was pan-x, which tells the browser this
+     element only handles sideways gestures, so a finger that started on a photo
+     and moved down did nothing at all and the sheet appeared frozen. Left to
+     itself the browser works out the direction: sideways scrolls the photos,
+     down scrolls the sheet. */
+}
+.site-shots::-webkit-scrollbar { display: none; }
+.site-shots .shot { scroll-snap-align: start; text-decoration: none; }
+.site-shots img {
+  width: 100%; height: 140px; object-fit: cover;
+  border-radius: 12px; background: #16233a; display: block;
+}
+/* The credit is not decoration. It is the condition the photo is free under. */
+.site-shots em {
+  display: block; margin-top: 5px; font-style: normal;
+  font-size: 11px; color: #8fa3bd; overflow: hidden;
+  text-overflow: ellipsis; white-space: nowrap;
+}
+.site-shots.loading span {
+  height: 140px; border-radius: 12px;
+  background: linear-gradient(90deg, #16233a 25%, #1d2d47 50%, #16233a 75%);
+  background-size: 200% 100%; animation: shot-wait 1.3s infinite;
+}
+@keyframes shot-wait { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+.site-thin {
+  margin: 0 4px 12px; padding: 11px 13px; border-radius: 11px;
+  background: rgba(224, 86, 58, .12); border: 1px solid rgba(224, 86, 58, .3);
+  font-size: 13px; line-height: 1.5; color: #f0b3a3;
+}
+.site-add { margin: 10px 4px 4px; }
+.site-add button {
+  background: #12351f; color: #b8f5cf; border: 0; cursor: pointer;
+  font: inherit; font-size: 14.5px; font-weight: 700;
+  padding: 12px 18px; border-radius: 12px; width: 100%;
+}
+.site-add button:disabled { opacity: .55; }
+.site-sent { display: block; margin-top: 8px; font-size: 12.5px; color: #8fa3bd; line-height: 1.5; }
+
+/* ── Explore: the map is the screen ─────────────────────────────────────────
+   Not a map on a page. On a phone the page chrome was taking the top third and
+   the card around the map took another slice, so the thing everybody came for
+   got what was left. Here everything else steps out of the way: the toolbar,
+   the card, the padding, the lot. What remains is the map, the controls
+   floating on it, and the tabs. */
+
+.planner.explore > header,
+.planner.explore .toolstrip { display: none; }
+
+.planner.explore main { padding: 0; margin: 0; }
+.planner.explore .map-card {
+  padding: 0; border: 0; border-radius: 0; background: none; box-shadow: none;
+  margin: 0;
+}
+.planner.explore .map-card::before { display: none; }
+
+.planner.explore .map-wrap {
+  position: fixed; inset: 0;
+  /* Deliberately no z-index.
+     It had one, and a positioned element with a z-index starts its own
+     stacking context, which trapped everything inside it underneath the count
+     bar sitting outside it. The filter sheet was rendering at 700 and still
+     losing to a strip at 550, because 700 only meant anything inside the box.
+     Without a z-index here, the numbers mean what they say. */
+}
+.planner.explore .map { height: 100%; width: 100%; border-radius: 0; }
+
+/* The bits that used to sit under the map now float on it, above the tabs. */
+.planner.explore .map-count {
+  position: fixed; z-index: 500;
+  left: 12px; right: 12px;
+  bottom: calc(78px + env(safe-area-inset-bottom));
+  border-radius: 14px; border: 1px solid rgba(255, 255, 255, .1);
+  background: rgba(14, 22, 38, .92);
+  backdrop-filter: blur(10px);
+  padding: 10px 15px;
+}
+.planner.explore .town-bar,
+.planner.explore .map-key { display: none; }
+
+/* The fabs sit above the count strip rather than behind it. */
+.planner.explore .map-fabs { bottom: calc(172px + env(safe-area-inset-bottom)); }
+
+/* The filter sheet is fixed too, or it would be trapped inside the map box. */
+.planner.explore .map-sheet-scrim { position: fixed; z-index: 700; }
+
+/* ── The load screen ────────────────────────────────────────────────────────
+   Over the top of everything until the map has painted, then out of the way.
+   Pointer events go the moment it starts fading, so it can never be the thing
+   swallowing the first tap. */
+
+.lapsplash {
+  position: fixed; inset: 0; z-index: 900;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 20px; padding: 24px;
+  background:
+    radial-gradient(900px 520px at 15% -10%, #16324a 0%, transparent 60%),
+    radial-gradient(760px 480px at 100% 8%, #12352a 0%, transparent 58%),
+    #0b1220;
+  color: #e8f0fb;
+  transition: opacity .45s ease, visibility .45s;
+}
+.lapsplash.going { opacity: 0; visibility: hidden; pointer-events: none; }
+
+.lapsplash-mark {
+  position: relative;
+  font-size: clamp(30px, 8vw, 50px); font-weight: 800; letter-spacing: -.035em;
+  animation: lap-rise .55s ease both;
+}
+/* A road under the name, drawn on rather than sitting there: the one bit of
+   movement, and it says "route" without a picture of a caravan. */
+.lapsplash-mark i {
+  display: block; height: 3px; margin-top: 12px; border-radius: 999px;
+  background: linear-gradient(90deg, #3ee6b2, #7dd3fc);
+  transform-origin: left center;
+  animation: lap-draw 1.1s .15s cubic-bezier(.4, 0, .2, 1) both;
+}
+.lapsplash p {
+  margin: 0; font-size: 13.5px; font-weight: 600; color: #8fa3bd; text-align: center;
+  animation: lap-rise .55s .12s ease both;
+}
+.lapsplash-dots { display: flex; gap: 7px; }
+.lapsplash-dots span {
+  width: 7px; height: 7px; border-radius: 50%; background: #3ee6b2; opacity: .3;
+  animation: lap-breathe 1.5s ease-in-out infinite;
+}
+.lapsplash-dots span:nth-child(2) { animation-delay: .18s; }
+.lapsplash-dots span:nth-child(3) { animation-delay: .36s; }
+
+@keyframes lap-rise { from { opacity: 0; transform: translateY(9px); } to { opacity: 1; transform: none; } }
+@keyframes lap-draw { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+@keyframes lap-breathe { 0%, 100% { opacity: .25; transform: scale(.85); } 50% { opacity: 1; transform: scale(1); } }
+
+@media (prefers-reduced-motion: reduce) {
+  .lapsplash-mark, .lapsplash-mark i, .lapsplash p { animation: none; }
+  .lapsplash-dots span { animation: none; opacity: .5; }
+}
+/* Why the map is empty, said plainly. An empty map with no explanation reads
+   as broken, and people zoom out further to find things, which is exactly the
+   wrong move. */
+.map-hint {
+  position: absolute; z-index: 520; left: 50%; transform: translateX(-50%);
+  top: calc(76px + env(safe-area-inset-top)); white-space: nowrap;
+  background: rgba(14, 22, 38, .92); color: #cfe0f5;
+  font-size: 12.5px; font-weight: 700;
+  padding: 8px 14px; border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, .1);
+}
+.planner.explore .map-hint { top: calc(80px + env(safe-area-inset-top)); }
+
+/* Leaflet's own zoom buttons.
+   They default to the top left corner, which is where the search box now is,
+   so they were both clipped into the status bar and underneath it. Pushed down
+   clear of both. */
+.map-wrap .leaflet-top { top: calc(72px + env(safe-area-inset-top)); }
+.map-wrap .leaflet-top .leaflet-control { margin-top: 0; }
+.map-wrap .leaflet-control-zoom a {
+  width: 38px; height: 38px; line-height: 38px;
+  background: rgba(14, 22, 38, .92); color: #cfe0f5;
+  border-color: rgba(255, 255, 255, .12);
+  font-size: 19px;
+}
+.map-wrap .leaflet-control-zoom a:hover { background: rgba(20, 32, 52, .96); }
+
+/* The map credit.
+   It used to be Leaflet's own attribution control, which is a Leaflet control
+   and therefore sat above everything this app draws: it fought the buttons and
+   the count strip on the map tab, and it covered the description and photos
+   whenever a camp was opened. Being stacked further up the right hand side only
+   moved the collision somewhere else.
+   It is a line in the count strip now, which already fades when a sheet opens,
+   so it cannot cover anything and it is still on screen whenever the map is. */
+.map-credit {
+  display: block;
+  font-size: 10.5px;
+  color: #6f819b;
+  text-decoration: none;
+  margin-top: 2px;
+}
+.map-credit:hover { color: #8fa3bd; text-decoration: underline; }
+
+/* A leg priced off the actual road rather than the trip wide guess. Marked, so
+   it is obvious which numbers came from somewhere and which were assumed. */
+.leg-line.numbers label.board span { color: #3ee6b2; }
+.leg-line.numbers label.board input {
+  border-color: rgba(62, 230, 178, .45);
+  background: rgba(62, 230, 178, .07);
+}
+.leg-working { font-size: 12.5px; font-weight: 700; color: #8fa3bd; align-self: center; }
+
+/* The stretches with no fuel. Red, and sized to be read before anything else
+   in the card: this is the only thing in the planner that can strand somebody
+   rather than just cost them money. */
+.gaps { display: grid; gap: 10px; margin-top: 12px; }
+.gap {
+  display: grid; gap: 3px;
+  padding: 13px 15px; border-radius: 13px;
+  background: rgba(224, 86, 58, .1);
+  border-left: 4px solid #e0563a;
+}
+.gap strong { font-size: 19px; letter-spacing: -.02em; }
+.gap span { font-size: 14.5px; font-weight: 700; }
+.gap em { font-style: normal; font-size: 12.5px; color: #8fa3bd; line-height: 1.5; }
+
+/* The reserve setting. Given room to explain itself, because "fuel you will
+   not use" is a strange thing to ask somebody for until you say why. */
+.reserve { display: block; margin-top: 4px; }
+.reserve > span {
+  display: block; font-size: 12.5px; font-weight: 800;
+  letter-spacing: .06em; text-transform: uppercase; color: #8fa3bd; margin-bottom: 6px;
+}
+.reserve select {
+  width: 100%; padding: 12px 14px; border-radius: 12px;
+  border: 1px solid rgba(255,255,255,.14); background: #0e1626;
+  color: inherit; font: inherit; font-size: 16px;
+}
+.reserve em {
+  display: block; margin-top: 8px; font-style: normal;
+  font-size: 12.5px; line-height: 1.6; color: #8fa3bd;
+}
+
+/* Out of the way while a sheet is open. */
+.planner.explore .map-count.under { opacity: 0; pointer-events: none; transition: opacity .15s ease; }
+
+/* Taking the road with you. */
+.offline p { font-size: 13.5px; line-height: 1.6; color: #8fa3bd; margin: 6px 0 12px; }
+.offline-head { display: flex; align-items: center; gap: 10px; }
+.offline-head strong { font-size: 15.5px; }
+.offline-flag {
+  font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase;
+  color: #f0b3a3; background: rgba(224,86,58,.16); padding: 3px 8px; border-radius: 999px;
+}
+.offline button {
+  width: 100%; border: 0; cursor: pointer; font: inherit; font-size: 15px; font-weight: 700;
+  padding: 13px 18px; border-radius: 12px; background: #12351f; color: #b8f5cf;
+}
+.offline button:disabled { opacity: .5; }
+.offline-bar {
+  position: relative; height: 34px; border-radius: 10px; overflow: hidden;
+  background: rgba(255,255,255,.08); display: grid; place-items: center;
+}
+.offline-bar i { position: absolute; inset: 0 auto 0 0; background: rgba(62,230,178,.28); transition: width .3s ease; }
+.offline-bar span { position: relative; font-size: 12.5px; font-weight: 700; }
+.offline-done { color: #3ee6b2 !important; font-weight: 700; }
+.offline-note { font-size: 13px; color: #f0b3a3; }

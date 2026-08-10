@@ -81,6 +81,19 @@ img { max-width: 100%; display: block; }
      it, a long URL or a place name, forcing its parent wider than the screen. */
   body { overflow-wrap: anywhere; word-break: normal; }
 
+  /* Except in the masthead, where that rule was eating the logo.
+     "anywhere" lets a browser break a word at any character to avoid overflow.
+     The logo sits in a flex row next to a seven item nav, and nothing told it
+     not to shrink — so on a phone it was squeezed to a couple of characters
+     wide and "FIFO Life" broke mid-word into "F | IFO" and "L | ife". What you
+     saw in the corner was the second line of each: "ifo ife".
+     Two fixes, because either alone leaves the bug one layout change away:
+     the masthead never breaks mid-word, and the logo never shrinks. */
+  .site-header-inner a { flex: 0 0 auto; }
+  .site-header-inner,
+  .site-header-inner * { overflow-wrap: normal; word-break: keep-all; white-space: nowrap; }
+  .site-nav { white-space: nowrap; }
+
   /* Belt and braces on the tool pages, where the map and its panels are the
      widest things on the site. */
   .tool-page, .tool-page * { max-width: 100%; }
