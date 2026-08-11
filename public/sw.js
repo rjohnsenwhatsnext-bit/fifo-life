@@ -115,13 +115,36 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
+  // The page itself is network first, and this is a lesson paid for, not a
+  // preference. It was served cache first on the reasoning that the app does
+  // not change between deploys, and that reasoning is exactly backwards: the
+  // HTML is the one part that names which hashed chunks to load, so a deploy
+  // made every returning device open yesterday's page, ask for chunks that no
+  // longer exist, and sit on the splash forever. One broken open per device
+  // per deploy, by design. Fresh page when there is signal; the cached one is
+  // for the Nullarbor, which is what it was always for.
+  if (request.mode === 'navigate' || request.destination === 'document') {
+    event.respondWith((async () => {
+      const cache = await caches.open(SHELL);
+      try {
+        const res = await fetch(request);
+        if (res && res.ok) cache.put(request, res.clone());
+        return res;
+      } catch {
+        const hit = await cache.match(request);
+        return hit || new Response('Offline', { status: 503 });
+      }
+    })());
+    return;
+  }
+
   if (isShell(url)) {
     event.respondWith((async () => {
       const cache = await caches.open(SHELL);
       const hit = await cache.match(request);
-      // Served from the cache immediately, refreshed in the background, so the
-      // next open has the newer one. Nobody waits for a network to see a screen
-      // that has not changed.
+      // Chunks are content hashed, so a hit is immutable and right. Refreshed
+      // in the background all the same, which is what keeps the offline copy
+      // complete for the stretch with no signal.
       const live = fetch(request).then((res) => {
         if (res && res.ok) cache.put(request, res.clone());
         return res;
