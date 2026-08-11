@@ -22,7 +22,11 @@ export default function Splash({ going }: { going: boolean }) {
         <i />
       </div>
       <div className="lapsplash-dots"><span /><span /><span /></div>
-      <p>Every servo, park and camp in the country</p>
+      {/* The budgeter is the product; the map is how it answers. And no claim
+          about servos, because diesel coverage is state by state (WA, QLD and
+          NSW so far) and "every servo in the country" was simply not true. The
+          camps line is true: the whole country, out of OpenStreetMap. */}
+      <p>What the lap really costs — with every park and camp in the country</p>
     </div>
   );
 }
