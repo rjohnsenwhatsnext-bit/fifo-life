@@ -12,8 +12,37 @@ import type { NextConfig } from "next";
 // would send the planner's own API calls to /planner/api/... and break the map.
 
 const LAP_MAP = "thelapmap.com.au";
+const MAGAZINE = "fifolife.au";
 
 const nextConfig: NextConfig = {
+  // The planner left the magazine.
+  //
+  // It was on both: thelapmap.com.au at the root and fifolife.au/planner, off
+  // one deployment. Two addresses serving the same page is two pages competing
+  // for the same searches, and the one with the matching domain name should
+  // win rather than have to.
+  //
+  // Permanent, and to the new home rather than a 404, so the links that already
+  // point at fifolife.au/planner keep working and hand their standing to the
+  // domain that is meant to have it. The nav and the sitemaps were already
+  // pointing at thelapmap.com.au; this is the last thing that was not.
+  //
+  // Host conditioned, so it only ever fires for the magazine. The rewrite below
+  // still resolves thelapmap.com.au to /planner internally, and redirects are
+  // evaluated before rewrites, so the tool's own address is untouched.
+  async redirects() {
+    return [MAGAZINE, `www.${MAGAZINE}`].flatMap((host) => [
+      { source: "/planner", has: [{ type: "host" as const, value: host }],
+        destination: `https://${LAP_MAP}`, permanent: true },
+      // Sub paths keep their prefix. Only the root is rewritten on the new
+      // domain, so /planner/manifest.webmanifest lives at /planner there too
+      // and stripping the prefix would have sent the app's own manifest to a
+      // 404.
+      { source: "/planner/:path*", has: [{ type: "host" as const, value: host }],
+        destination: `https://${LAP_MAP}/planner/:path*`, permanent: true },
+    ]);
+  },
+
   async rewrites() {
     return {
       beforeFiles: [

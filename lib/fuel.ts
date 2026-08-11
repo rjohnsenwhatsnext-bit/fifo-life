@@ -105,7 +105,9 @@ async function fuelWatch(query: string): Promise<Pump[]> {
   const res = await fetch(`${FUELWATCH}?Product=${FUELWATCH_DIESEL}&${query}`, {
     // Named, because it is somebody else's server and a nameless scraper is
     // the first thing anyone blocks.
-    headers: { "User-Agent": "BigLapPlanner/1.0 (+https://fifolife.au/planner)" },
+    // Points at the tool's own home. It named fifolife.au/planner, which now
+    // redirects, and a contact address that bounces is worse than none.
+    headers: { "User-Agent": "BigLapPlanner/1.0 (+https://thelapmap.com.au)" },
     cache: "no-store",
   });
   if (!res.ok) return [];
