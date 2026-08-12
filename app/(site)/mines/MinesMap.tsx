@@ -87,7 +87,14 @@ export default function MinesMap() {
         ".mine-tip:before{border-top-color:#111827ee}";
       document.head.appendChild(style);
 
-      const mines: Mine[] = await fetch("/mines.json").then(r => r.json()).catch(() => []);
+      // Live counts first, the committed file second. The job numbers move
+      // every night, so the endpoint is the one telling the truth; the static
+      // file stays as the thing that keeps a map on the screen if Supabase is
+      // having a moment, which is why it was a file in the first place.
+      const mines: Mine[] = await fetch("/api/mines")
+        .then(r => (r.ok ? r.json() : Promise.reject(new Error(String(r.status)))))
+        .catch(() => fetch("/mines.json").then(r => r.json()))
+        .catch(() => []);
       if (cancelled) return;
       setCount(mines.length);
 
