@@ -15,8 +15,11 @@ type Place = { kind: string; name: string; what?: string; directKm: number; fee?
 type Found = { at?: string; things?: Place[]; camps?: Place[]; water?: Place[]; dump?: Place[]; fuel?: Place[] };
 
 type Shared = { id: string; kind: string; name: string; lat: number; lng: number; nightly: number | null; what: string | null; directKm: number };
-type Pump = { name: string; address: string; fuel: string; price: number; directKm: number; updated: string; lat: number; lng: number };
-type Fuel = { pumps?: Pump[]; map?: Pump[]; total?: number; cheapest?: Pump | null; average?: number | null };
+// Exported because the budget prices itself off the same servos the map is
+// showing. It used to be handed a separate set fetched behind a tap on a town,
+// which is how the Money tab ended up telling people to go and tap something
+// before it would give them a diesel price.
+export type Pump = { name: string; address: string; fuel: string; price: number; directKm: number; updated: string; lat: number; lng: number };
 
 // Board prices are quoted in cents on every sign in the country, so that is
 // what goes on the pin. Dollars a litre belongs in the budget, not on a map.
@@ -71,13 +74,11 @@ type Park = {
   site: string | null; power: boolean; thin?: boolean;
 };
 
-export default function RouteMap({ legs, around, shared, fuel, picking, onPick, onTown, show, onCount, flyTo, onToggle, onSearch, dark, onDark, onReady, onlyRoute, corridor, onPumps, onSheet }: {
+export default function RouteMap({ legs, around, shared, picking, onPick, onTown, show, onCount, flyTo, onToggle, onSearch, dark, onDark, onReady, onlyRoute, corridor, onPumps, onSheet }: {
   legs: Leg[];
   around: Record<string, Found>;
   /** What travellers have added, by the point they were looked up against. */
   shared?: Record<string, Shared[]>;
-  /** Diesel board prices, by the point they were looked up against. */
-  fuel?: Record<string, Fuel>;
   // When a leg is being pointed out on the map rather than typed. First click
   // is where you leave from, second is where you are going.
   picking?: { legId: string; end: 'from' | 'to' } | null;
@@ -739,13 +740,15 @@ export default function RouteMap({ legs, around, shared, fuel, picking, onPick, 
 
     if (show && !show.fuel) { pumpsRef.current = null; priceLayer.current?.clearLayers(); countInView(); return; }
 
-    // What is on screen, plus anything a leg lookup already found. The area
-    // fetch is the main source; the leg ones are kept because they carry the
-    // numbers the Money tab was costed from, and dropping them would change a
-    // budget somebody had already seen.
-    const legPumps = Object.values(fuel || {}).flatMap((set) => set?.pumps ?? []);
+    // What is on screen, and only that.
+    //
+    // A second set used to be merged in here: the servos a tap on a town had
+    // found. That is gone, along with the tap. The area sweep runs on every pan
+    // and covers the same ground without being asked, and merging a set fetched
+    // around some town somebody tapped twenty minutes ago put stale prices on a
+    // map they had since moved.
     const seen = new Set<string>();
-    const allPumps = [...viewPumps, ...legPumps].filter((pump) => {
+    const allPumps = viewPumps.filter((pump) => {
       const key = `${pump.lat.toFixed(4)},${pump.lng.toFixed(4)}`;
       if (seen.has(key)) return false;
       seen.add(key);
@@ -776,7 +779,7 @@ export default function RouteMap({ legs, around, shared, fuel, picking, onPick, 
     pumpsRef.current = { pumps: allPumps, shade, low };
     drawPrices();
     countInView();
-  }, [viewPumps, fuel, show, drawPrices, countInView]);
+  }, [viewPumps, show, drawPrices, countInView]);
 
   // Attractions, likewise on their own layer.
   useEffect(() => {

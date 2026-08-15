@@ -132,31 +132,11 @@
   .top.embedded .actions { justify-content: flex-start; margin-top: 0; }
 }
 
-/* Diesel, from the fuel price reporting scheme.
-   Given its own block above the map data because it is the biggest number in a
-   towing budget and the only one that moves while you are on the road. Two
-   figures do the work: the best price near the stop, and the average, which is
-   the one to actually budget on. */
-.diesel { border: 1px solid rgba(62,230,178,.28); background: rgba(62,230,178,.06); border-radius: 12px; padding: 14px; margin-bottom: 16px; }
-.diesel-head { display: flex; flex-wrap: wrap; gap: 18px 32px; align-items: flex-start; }
-.diesel-best, .diesel-avg { display: grid; gap: 2px; }
-.diesel-head strong { font-size: 1.9rem; font-weight: 700; line-height: 1.05; letter-spacing: -.02em; }
-.diesel-best strong { color: #3ee6b2; }
-.diesel-head strong i { font-style: normal; font-size: .82rem; opacity: .6; margin-left: 2px; }
-.diesel-head em { font-style: normal; font-size: .76rem; opacity: .7; }
-.diesel-use { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 6px; }
-
-.diesel-list { display: grid; gap: 6px; margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--line); }
-.pump { display: grid; grid-template-columns: 74px 1fr; gap: 2px 12px; margin: 0; align-items: baseline; }
-.pump-price { font-weight: 700; font-variant-numeric: tabular-nums; }
-.pump-name { font-weight: 600; font-size: .86rem; }
-.pump em { grid-column: 2; font-style: normal; font-size: .72rem; opacity: .6; }
-
-@media (max-width: 800px) {
-  .diesel-head strong { font-size: 1.5rem; }
-  .diesel-head { gap: 14px 20px; }
-  .pump { grid-template-columns: 66px 1fr; }
-}
+/* The diesel block that used to live here is gone with the tap that filled it.
+   Board prices are on the map as pins, and the Money tab reads the same sweep,
+   so a panel listing eight servos around a point somebody happened to press was
+   the third place the same numbers appeared and the only one that had to be
+   asked for. */
 
 /* Places travellers add.
    Marked so nobody mistakes a stranger's tip for surveyed data, and put above
@@ -224,7 +204,6 @@
   .leg-line input { min-width: 0; }
   .hero { display: block; }
   .hero .status { margin-top: 14px; }
-  .diesel-list { max-height: 46vh; overflow-y: auto; }
   .mine-fields { grid-template-columns: 1fr; }
 }
 
@@ -513,6 +492,18 @@
 .sheet-note {
   margin: 12px 4px 0; font-size: 12.5px; line-height: 1.55; color: #8fa3bd;
 }
+
+/* What is around a tapped point, in the same sheet a camp opens in.
+   This was a card in the page. On the Explore tab the map is fixed over the
+   whole screen, so the card rendered behind it: it could not be read, could not
+   be closed, and showed through the tiles as a ghost of its own text every time
+   anybody tapped the map. One column, because a sheet on a phone is one column
+   whatever the grid underneath it was designed for. */
+.map-sheet.town .things,
+.map-sheet.town .around { grid-template-columns: 1fr; }
+.map-sheet.town .around { border-top-color: rgba(255, 255, 255, .1); }
+.map-sheet.town .thing { border-color: rgba(255, 255, 255, .12); }
+.map-sheet.town .sub { font-size: 13px; line-height: 1.55; color: #8fa3bd; }
 
 /* A site, opened. */
 .site-facts { margin: 2px 4px 10px; font-size: 13.5px; font-weight: 700; color: #8fa3bd; }

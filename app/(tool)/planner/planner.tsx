@@ -6,7 +6,7 @@ import dynamic from 'next/dynamic';
 const RouteMap = dynamic(()=>import('./map'), { ssr: false, loading: ()=><div className="map skeleton" /> });
 // Type only, so it does not drag Leaflet into the first load the way a
 // value import from the same module would.
-import type { LayerKey } from './map';
+import type { LayerKey, Pump } from './map';
 import { aud, defaults, fullTankRange, type PlanInputs, type Period, fuelCost, monthlyBudget, weeklyBudget, kmPerPeriod, routeTotals, nationalParkNight, nightlyFor, type Leg, convertBudget, WEEKS_PER_MONTH, runwayMonths, moneyAfter, fuelPlan, tankRange, budgetTotal } from '@/lib/planner';
 import { credit, type SharedPlace } from '@/lib/myplaces';
 import Install from './install';
@@ -222,10 +222,23 @@ export default function Planner() {
   // a night costs tells you nothing about whether you want to be there. This
   // answers the question the kids ask from the back seat.
   const [town,setTown]=useState<{key:string;name:string;busy:boolean;error?:string}|null>(null);
-  // Board prices, kept beside the map data rather than inside it. They come
-  // from a different source on a different clock, and mixing the two would mean
-  // a stale price hiding behind a fresh list of lookouts.
-  const [fuel,setFuel]=useState<Record<string,any>>({});
+  // Every servo the map can currently see, handed up by the map itself.
+  //
+  // Diesel used to arrive behind a tap: you tapped a town, that fired its own
+  // lookup, and the price landed in a panel. The map has swept the whole view
+  // for board prices on every pan for a while now, so the tap was asking for
+  // numbers that were already on the screen, and the Money tab was still
+  // telling people to go and tap something before it would price a trip.
+  // This is that sweep. Nothing here needs a tap.
+  const [areaPumps,setAreaPumps]=useState<Pump[]>([]);
+  // The two numbers anybody asks a board for: the best price in front of them,
+  // and what it costs on average if they fill where it is convenient.
+  const areaDiesel=useMemo(()=>{
+    if(!areaPumps.length) return null;
+    const cheapest=areaPumps.reduce((best,pump)=>pump.price<best.price?pump:best);
+    const average=areaPumps.reduce((sum,pump)=>sum+pump.price,0)/areaPumps.length;
+    return { count:areaPumps.length, cheapest, average };
+  },[areaPumps]);
   // Places travellers have added, shared.
   //
   // Fetched per stop rather than all at once, because the whole table is a map
@@ -329,12 +342,10 @@ export default function Planner() {
   const onTown=useCallback(async(at:[number,number],name?:string)=>{
     const key=`${at[0].toFixed(3)},${at[1].toFixed(3)}`;
     setTown({key,name:name||'',busy:true});
-    // Diesel goes off at the same time and lands whenever it lands. Waiting on
-    // it to draw the rest of the panel would make every tap feel slower for the
-    // sake of one number.
-    fetch('/api/fuel',{method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({at,radius:Math.max(radius,50)})})
-      .then(r=>r.json()).then(d=>setFuel(v=>({...v,[key]:d}))).catch(()=>{});
+    // No diesel lookup here any more. It used to fire alongside this one, which
+    // made a tap the way you got a fuel price. The map sweeps the whole view
+    // for board prices without being asked, so this asks for the things a
+    // sweep cannot give you: what there is to do, and what travellers added.
     // What other travellers have added here, on its own trip so a slow map
     // lookup does not hold up the list people wrote themselves.
     loadShared(key,at,radius);
@@ -444,7 +455,6 @@ export default function Planner() {
   const fillAt=(at?:[number,number])=>at?fillPrices[`${at[0].toFixed(2)},${at[1].toFixed(2)}`]:null;
 
   const found=town&&around[town.key]?around[town.key]:null;
-  const diesel=town?fuel[town.key]:null;
   // Where a new place lands: the town the lookup settled on, or failing that
   // the raw point that was tapped.
   const atPoint:[number,number]|null=town
@@ -510,14 +520,15 @@ export default function Planner() {
     <main>
       {tab==='Explore' && <>
         <Card className="map-card">
-          <RouteMap legs={p.legs??[]} around={around} shared={shared} fuel={fuel} picking={picking}
+          <RouteMap legs={p.legs??[]} around={around} shared={shared} picking={picking}
                     onPick={onPick} onTown={onTown}
                     show={show} onToggle={toggleLayer} onCount={setInView}
                     onSearch={searchFor} flyTo={flyTo}
                     dark={dark} onDark={()=>setDark(!dark)}
                     onReady={()=>setPainted(true)}
-                    onlyRoute={onlyRoute} corridor={corridor} onSheet={setSheetOpen}/>
-          <div className={`map-count${sheetOpen?' under':''}`}>
+                    onlyRoute={onlyRoute} corridor={corridor} onSheet={setSheetOpen}
+                    onPumps={setAreaPumps}/>
+          <div className={`map-count${sheetOpen||town?' under':''}`}>
             <b>{inView.total} {inView.total === 1 ? 'thing' : 'things'} in view</b>
             <span className="muted">
               {noHit ? 'Could not find that one' : inView.total === 0
@@ -548,41 +559,24 @@ export default function Planner() {
           </div>
         </Card>
 
-        {town && <Card className="town" title={town.busy?'Looking around...':`What is around ${town.name||'there'}`}>
-          {town.error && <p className="sub">{town.error}</p>}
+        {/* What is around a point you tapped, in the same sheet a camp opens in.
+            It used to be a card in the page. On this tab the map is fixed over
+            the whole screen, so that card rendered behind it: unreadable,
+            unreachable, and bleeding through the tiles as a ghost of a list
+            every time anybody tapped the map. The sheet is drawn over the map
+            like everything else here, and closes.
 
-          {/* Diesel first, because on a lap it is the biggest line in the
-              budget and the only one that changes while you are driving. */}
-          {diesel && (diesel.pumps?.length ? <div className="diesel">
-            <div className="diesel-head">
-              <div className="diesel-best">
-                {/* Worded so the count cannot be read as the town's. A 250km
-                    circle out of Mackay reaches Home Hill and Capella, so the
-                    number is the area's, not the place you tapped. */}
-                <span className="eyebrow">{diesel.total>1?`Cheapest of ${diesel.total} reporting within ${diesel.radius}km`:`Cheapest diesel within ${diesel.radius}km`}</span>
-                <strong>${diesel.cheapest.price.toFixed(3)}<i>/L</i></strong>
-                <em>{diesel.cheapest.name} · {diesel.cheapest.directKm}km</em>
-              </div>
-              <div className="diesel-avg">
-                <span className="eyebrow">Average across those {diesel.radius}km</span>
-                <strong>${diesel.average.toFixed(3)}<i>/L</i></strong>
-                {/* Budget on the average, not the best price in the district —
-                    but price the plan off whichever you would actually pay. */}
-                <div className="diesel-use">
-                  <button className="ghost tiny" onClick={()=>update('dieselPrice',Number(diesel.average.toFixed(3)))}>Budget on average</button>
-                  <button className="ghost tiny" onClick={()=>update('dieselPrice',Number(diesel.cheapest.price.toFixed(3)))}>Use cheapest</button>
-                </div>
-              </div>
-            </div>
-            <div className="diesel-list">
-              {diesel.pumps.slice(0,8).map((f:any,i:number)=><p key={i} className="pump">
-                <span className="pump-price">${f.price.toFixed(3)}</span>
-                <span className="pump-name">{f.name}</span>
-                <em>{f.directKm}km · {f.fuel}{f.address?` · ${f.address}`:''}</em>
-              </p>)}
-            </div>
-            <p className="around-note">{diesel.note}</p>
-          </div> : <p className="sub">{diesel.note||'No reported diesel prices near there.'}</p>)}
+            No diesel in it any more either. Fuel is on the map, priced, without
+            a tap. */}
+        {town && (
+          <div className="map-sheet-scrim" onClick={()=>setTown(null)}>
+          <div className="map-sheet town" onClick={e=>e.stopPropagation()}>
+          <div className="sheet-grip" />
+          <div className="sheet-head">
+            <b>{town.busy?'Looking around...':`What is around ${town.name||'there'}`}</b>
+            <button type="button" onClick={()=>setTown(null)}>Close</button>
+          </div>
+          {town.error && <p className="sub">{town.error}</p>}
 
           {/* Add what the map missed. Available the moment a point is open,
               because the time you know a spot is worth saving is the moment you
@@ -664,7 +658,9 @@ export default function Planner() {
               <p className="around-note">{found.note}</p>
             </div>
           </>}
-        </Card>}
+          </div>
+          </div>
+        )}
 
       </>}
 
@@ -817,9 +813,9 @@ export default function Planner() {
                       <strong>{aud(litres*cheapest.price)}</strong>
                       <em>{litres}L at ${cheapest.price.toFixed(3)}</em>
                       <em className="fill-servo">{cheapest.name}{cheapest.directKm?` · ${cheapest.directKm}km`:''}</em>
-                    </> : priced?.busy ? <em>Getting prices…</em>
-                      : priced?.note ? <em>{priced.note}</em>
-                      : <em>{litres}L. Tap that stop on the map for prices.</em>}
+                    </> : priced?.note ? <em>{priced.note}</em>
+                      : i<8 ? <em>{litres}L. Getting prices…</em>
+                      : <em>{litres}L. Prices are only looked up for the first eight fills.</em>}
                   </div>
                 </div>;
               })}
@@ -894,12 +890,16 @@ export default function Planner() {
             <div className="totals-row"><Metric label={`Kilometres a ${p.budgetPeriod??"month"}`} value={kmPerPeriod(p).toLocaleString('en-AU')+" km"}/><Metric label="Fuel per week" value={aud(fuelCost(p)*12/52)}/><Metric label="Fuel per month" value={aud(fuelCost(p))}/></div>
             <p className="sub">{p.dieselPrice.toFixed(2)} a litre, {p.towingConsumption}L per 100km, {p.kmPerTravelDay??0}km on a driving day, {p.travelDays??0} driving {(p.travelDays??0)===1?"day":"days"} a {p.budgetPeriod??"month"}.</p>
             <Field label="Diesel price per litre" value={p.dieselPrice} step={0.01} onChange={n=>update('dieselPrice',n)}/>
-            {/* A real number beats a remembered one. Tap a stop on the Route
-                tab and the board price near it turns up here. */}
-            {diesel?.average
-              ? <p className="sub">Reported around {town?.name||'that stop'}: average <strong>${diesel.average.toFixed(3)}</strong>, cheapest <strong>${diesel.cheapest.price.toFixed(3)}</strong>.
-                  <button className="ghost tiny" onClick={()=>update('dieselPrice',Number(diesel.average.toFixed(3)))}>Use the average</button></p>
-              : <p className="sub">Tap a stop on the Route tab and the real diesel price near it lands here.</p>}
+            {/* A real number beats a remembered one, and it arrives on its own.
+                These are the servos the map is showing, so moving the map moves
+                these figures. It asked for a tap on a town before, which is a
+                thing to remember to do before a budget will tell you the
+                truth. */}
+            {areaDiesel
+              ? <p className="sub">Across the {areaDiesel.count} {areaDiesel.count===1?'servo':'servos'} on the map now: average <strong>${areaDiesel.average.toFixed(3)}</strong>, cheapest <strong>${areaDiesel.cheapest.price.toFixed(3)}</strong> at {areaDiesel.cheapest.name}.
+                  <button className="ghost tiny" onClick={()=>update('dieselPrice',Number(areaDiesel.average.toFixed(3)))}>Use the average</button>
+                  <button className="ghost tiny" onClick={()=>update('dieselPrice',Number(areaDiesel.cheapest.price.toFixed(3)))}>Use the cheapest</button></p>
+              : <p className="sub">Move the map on the Explore tab over where you are going and the real diesel prices land here on their own.</p>}
             <Field label="Towing consumption (L/100km)" value={p.towingConsumption} prefix="" step={0.5} onChange={n=>update('towingConsumption',n)}/>
             <Field label="Tank size (litres)" value={p.tankLitres??140} prefix="" step={5} onChange={n=>update('tankLitres',n)}/>
             <label className="reserve">
