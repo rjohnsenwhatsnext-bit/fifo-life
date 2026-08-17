@@ -2,13 +2,10 @@
 
 import { useEffect, useRef, useState } from "react";
 
-// Every operating mine in Australia, on satellite.
+// Every operating mine in Australia.
 //
-// Satellite rather than a street map on purpose. A road map of the Pilbara is
-// a beige rectangle with three lines on it, and it tells a FIFO worker nothing.
-// Imagery shows the pit, the ROM pad, the camp and how far the airstrip is from
-// all of it, which is the thing somebody deciding whether to take a job at a
-// site they have never seen actually wants to look at.
+// On the street map since 17 Aug 2026. See the note by the tile layer below for
+// why, and for the argument it was traded against.
 //
 // Loaded only when this page is open. Leaflet touches window on import, and a
 // map built on every page load is a map most of which nobody looks at.
@@ -52,33 +49,32 @@ export default function MinesMap() {
       map.current = L.map(host.current, { scrollWheelZoom: false, worldCopyJump: false })
         .setView([-25.5, 133.5], 4);
 
-      // Esri's imagery. Free to use with the attribution below, and the only
-      // satellite layer that covers inland Australia at a useful resolution
-      // without a paid key.
-      L.tileLayer(
-        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        {
-          maxZoom: 17,
-          attribution:
-            "Imagery &copy; Esri, Maxar, Earthstar Geographics &middot; " +
-            "Mine data: Frontline Talent Group",
-        },
-      ).addTo(map.current);
-
-      // Place names on top of the imagery, because satellite alone gives you no
-      // idea whether you are looking at Moranbah or Mount Isa.
-      L.tileLayer(
-        "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
-        { maxZoom: 17, opacity: 0.85 },
-      ).addTo(map.current);
+      // The street map, by decision on 17 Aug 2026.
+      //
+      // The imagery moved to the Frontline Talent Group directory, which is the
+      // business the mine data belongs to, and the two properties are not meant
+      // to show the same thing. This one keeps the sites and the filters.
+      //
+      // Worth knowing if this is ever revisited: the note that used to sit here
+      // argued for satellite on the grounds that a road map of the Pilbara is a
+      // beige rectangle with three lines on it, while imagery shows the pit, the
+      // camp and how far the airstrip is from both. That reasoning has not
+      // stopped being true, it was traded for keeping the better map on the
+      // business site.
+      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 17,
+        attribution:
+          "&copy; OpenStreetMap contributors &middot; " +
+          "Mine data: Frontline Talent Group",
+      }).addTo(map.current);
 
       for (const key of Object.keys(STATUS)) {
         layers.current[key] = L.layerGroup().addTo(map.current);
       }
 
-      // Leaflet's default tooltip is a white box, which vanishes against
-      // imagery. This one is dark with a light edge so it reads over any
-      // terrain, desert or spoil or water.
+      // Leaflet's default tooltip is a white box on a pale map, which is a
+      // label you have to hunt for. This one is dark with a light edge so it
+      // reads wherever it lands.
       const style = document.createElement("style");
       style.textContent =
         ".mine-tip{background:#111827ee;border:1px solid #ffffff33;color:#f3f4f6;" +
