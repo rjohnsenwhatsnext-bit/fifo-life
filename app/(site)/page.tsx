@@ -1,5 +1,6 @@
 import { supabase, type Article } from "@/lib/supabase";
 import FtgFooter from "@/app/FtgFooter";
+import MineMapBanner from "./MineMapBanner";
 // re-render at most every 5 minutes so daily agent-published articles appear
 export const revalidate = 300;
 
@@ -57,6 +58,8 @@ export default async function HomePage() {
 
   return (
     <>
+      <MineMapBanner />
+
       {/* Hero */}
       <section style={{ borderBottom: "1px solid #e5e7eb", background: "#f9fafb" }}>
         <div className="home-hero" style={{ maxWidth: 1200, margin: "0 auto", padding: "48px 24px", display: "grid", gridTemplateColumns: "1fr 420px", gap: 48, alignItems: "center" }}>
@@ -64,9 +67,9 @@ export default async function HomePage() {
             <div style={{ display: "inline-block", background: CATEGORY_COLORS[featured.category] ?? "#1a56db", color: "#fff", fontFamily: "system-ui, sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "3px 10px", borderRadius: 3, marginBottom: 16 }}>
               {featured.category}
             </div>
-            <h1 style={{ fontSize: "2.4rem", lineHeight: 1.15, marginBottom: 20, fontFamily: "system-ui, sans-serif" }}>
+            <h2 style={{ fontSize: "2.4rem", lineHeight: 1.15, marginBottom: 20, fontFamily: "system-ui, sans-serif", fontWeight: 700 }}>
               <a href={`/article/${featured.slug}`} style={{ color: "#111" }}>{featured.title}</a>
-            </h1>
+            </h2>
             <p style={{ fontSize: "1.15rem", color: "#4b5563", lineHeight: 1.7, marginBottom: 28 }}>{featured.excerpt}</p>
             <div style={{ display: "flex", alignItems: "center", gap: 16, fontFamily: "system-ui, sans-serif", fontSize: 13, color: "#6b7280" }}>
               <span>{featured.reading_time} min read</span>
