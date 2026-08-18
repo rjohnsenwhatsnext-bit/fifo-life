@@ -167,9 +167,9 @@ export default function MinesMap() {
             style={{
               display: "inline-flex", alignItems: "center", gap: 7,
               padding: "8px 13px", borderRadius: 999, cursor: "pointer",
-              border: "1px solid rgba(255,255,255,.16)",
-              background: showing[key] ? "rgba(255,255,255,.09)" : "transparent",
-              color: showing[key] ? "#e8e8e8" : "#8a8a8a", fontSize: 13, fontWeight: 600,
+              border: "1px solid rgba(0,0,0,.14)",
+              background: showing[key] ? "rgba(0,0,0,.05)" : "transparent",
+              color: showing[key] ? "#111827" : "#9ca3af", fontSize: 13, fontWeight: 600,
             }}>
             <span style={{
               width: 9, height: 9, borderRadius: "50%",
@@ -184,7 +184,7 @@ export default function MinesMap() {
         style={{ height: "clamp(380px, 68vh, 760px)", width: "100%", borderRadius: 6,
           overflow: "hidden", background: "#0d0d0d" }} />
 
-      <p style={{ color: "#8a8a8a", fontSize: 13, marginTop: 10 }}>
+      <p style={{ color: "#6b7280", fontSize: 13, marginTop: 10 }}>
         {count ? `${count} mines and projects across Australia. ` : ""}
         Tap a site for what it produces and who runs it.
       </p>

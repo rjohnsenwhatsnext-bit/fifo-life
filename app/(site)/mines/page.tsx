@@ -33,7 +33,7 @@ export default function MinesPage() {
         Every mine in Australia, from above
       </h1>
 
-      <p style={{ fontSize: 17, lineHeight: 1.6, color: "#b8b8b8", maxWidth: 660, margin: "0 0 26px" }}>
+      <p style={{ fontSize: 17, lineHeight: 1.6, color: "#4b5563", maxWidth: 660, margin: "0 0 26px" }}>
         Satellite, not a road map. You can see the pit, the ROM pad, the camp and how far
         the airstrip is from all of it, which tells you more about a swing than any job ad will.
         Green is operating, amber is under development, blue is care and maintenance.
@@ -46,7 +46,7 @@ export default function MinesPage() {
         borderRadius: 6, background: "#141414", maxWidth: 720,
       }}>
         <h2 style={{ fontSize: 19, margin: "0 0 8px" }}>Before you take the job</h2>
-        <p style={{ color: "#b8b8b8", fontSize: 15.5, lineHeight: 1.6, margin: 0 }}>
+        <p style={{ color: "#d1d5db", fontSize: 15.5, lineHeight: 1.6, margin: 0 }}>
           A site an hour off a highway and a site three hours down a haul road are the same
           roster on paper and a completely different two weeks. Look at what is around it,
           then read what people who have worked there say about the camp.
