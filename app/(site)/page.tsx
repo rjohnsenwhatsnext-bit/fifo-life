@@ -44,11 +44,11 @@ async function getArticles(): Promise<Article[]> {
 }
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Money: "#1a56db",
+  Money: "#e8721c",
   Relationships: "#e11d48",
   Health: "#059669",
   Career: "#7c3aed",
-  Guides: "#f97316",
+  Guides: "#e8721c",
 };
 
 export default async function HomePage() {
@@ -64,7 +64,7 @@ export default async function HomePage() {
       <section style={{ borderBottom: "1px solid #e5e7eb", background: "#f9fafb" }}>
         <div className="home-hero" style={{ maxWidth: 1200, margin: "0 auto", padding: "48px 24px", display: "grid", gridTemplateColumns: "1fr 420px", gap: 48, alignItems: "center" }}>
           <div>
-            <div style={{ display: "inline-block", background: CATEGORY_COLORS[featured.category] ?? "#1a56db", color: "#fff", fontFamily: "system-ui, sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "3px 10px", borderRadius: 3, marginBottom: 16 }}>
+            <div style={{ display: "inline-block", background: CATEGORY_COLORS[featured.category] ?? "#e8721c", color: "#fff", fontFamily: "system-ui, sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", padding: "3px 10px", borderRadius: 3, marginBottom: 16 }}>
               {featured.category}
             </div>
             <h2 style={{ fontSize: "2.4rem", lineHeight: 1.15, marginBottom: 20, fontFamily: "system-ui, sans-serif", fontWeight: 700 }}>
@@ -76,7 +76,7 @@ export default async function HomePage() {
               <span>·</span>
               <span>{new Date(featured.published_at).toLocaleDateString("en-AU", { day: "numeric", month: "long", year: "numeric" })}</span>
             </div>
-            <a href={`/article/${featured.slug}`} style={{ display: "inline-block", marginTop: 28, background: "#1a56db", color: "#fff", fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 14, padding: "12px 24px", borderRadius: 6 }}>
+            <a href={`/article/${featured.slug}`} style={{ display: "inline-block", marginTop: 28, background: "#e8721c", color: "#fff", fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 14, padding: "12px 24px", borderRadius: 6 }}>
               Read Article →
             </a>
           </div>
@@ -95,11 +95,6 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Ad slot — leaderboard (fills when AdSense is approved) */}
-      <div style={{ maxWidth: 1200, margin: "24px auto 0", padding: "0 24px" }}>
-        <div id="ad-leaderboard" style={{ height: 100, borderRadius: 8, background: "repeating-linear-gradient(45deg,#f6f7f8,#f6f7f8 12px,#f1f2f4 12px,#f1f2f4 24px)", border: "1px dashed #e0e3e7", display: "flex", alignItems: "center", justifyContent: "center", color: "#b6bcc4", fontFamily: "system-ui, sans-serif", fontSize: 11, letterSpacing: 1 }}>AD</div>
-      </div>
-
       {/* Article grid */}
       <section style={{ maxWidth: 1200, margin: "0 auto", padding: "56px 24px" }}>
         <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: 32 }}>
@@ -117,19 +112,17 @@ export default async function HomePage() {
           ))}
         </div>
 
-        {/* Ad slot — in-content */}
-        <div id="ad-incontent" style={{ height: 250, marginTop: 40, borderRadius: 8, background: "repeating-linear-gradient(45deg,#f6f7f8,#f6f7f8 12px,#f1f2f4 12px,#f1f2f4 24px)", border: "1px dashed #e0e3e7", display: "flex", alignItems: "center", justifyContent: "center", color: "#b6bcc4", fontFamily: "system-ui, sans-serif", fontSize: 11, letterSpacing: 1 }}>AD</div>
       </section>
 
       {/* PDF Guides CTA */}
       <section style={{ background: "#111827", color: "#fff", padding: "56px 24px" }}>
         <div style={{ maxWidth: 700, margin: "0 auto", textAlign: "center" }}>
-          <div style={{ fontFamily: "system-ui, sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#f97316", marginBottom: 16 }}>Free Downloads</div>
+          <div style={{ fontFamily: "system-ui, sans-serif", fontSize: 12, fontWeight: 700, letterSpacing: "0.1em", textTransform: "uppercase", color: "#e8721c", marginBottom: 16 }}>Free Downloads</div>
           <h2 style={{ fontFamily: "system-ui, sans-serif", fontSize: "2rem", marginBottom: 16 }}>PDF Guides for FIFO Workers</h2>
           <p style={{ color: "#9ca3af", fontSize: "1.05rem", lineHeight: 1.7, marginBottom: 32 }}>
             Practical guides you can read on the plane, in camp, or during downtime. Budgeting, relationships, fitness, career — no fluff.
           </p>
-          <a href="/guides" style={{ display: "inline-block", background: "#f97316", color: "#fff", fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 15, padding: "14px 32px", borderRadius: 8 }}>
+          <a href="/guides" style={{ display: "inline-block", background: "#e8721c", color: "#fff", fontFamily: "system-ui, sans-serif", fontWeight: 700, fontSize: 15, padding: "14px 32px", borderRadius: 8 }}>
             Download Free Guides →
           </a>
         </div>
@@ -143,7 +136,7 @@ export default async function HomePage() {
 }
 
 function ArticleCard({ article }: { article: Article }) {
-  const color = CATEGORY_COLORS[article.category] ?? "#1a56db";
+  const color = CATEGORY_COLORS[article.category] ?? "#e8721c";
   return (
     <article style={{ borderBottom: "1px solid #e5e7eb", paddingBottom: 28 }}>
       <div style={{ display: "inline-block", color, fontFamily: "system-ui, sans-serif", fontSize: 11, fontWeight: 700, letterSpacing: "0.08em", textTransform: "uppercase", marginBottom: 10 }}>
