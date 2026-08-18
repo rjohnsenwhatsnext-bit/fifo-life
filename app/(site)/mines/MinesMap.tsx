@@ -61,12 +61,23 @@ export default function MinesMap() {
       // camp and how far the airstrip is from both. That reasoning has not
       // stopped being true, it was traded for keeping the better map on the
       // business site.
-      L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-        maxZoom: 17,
-        attribution:
-          "&copy; OpenStreetMap contributors &middot; " +
-          "Mine data: Frontline Talent Group",
-      }).addTo(map.current);
+      // Satellite, because the page above says satellite. It was traded for a
+      // road map at some point and the copy was never changed, so the page
+      // promised the pit, the camp and the airstrip and served a beige
+      // rectangle with three lines on it.
+      //
+      // Note the tile order: Esri serves {z}/{y}/{x}, not the {z}/{x}/{y} that
+      // almost every other provider uses. Getting that the wrong way round
+      // returns tiles from somewhere else on earth rather than an error.
+      L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        {
+          maxZoom: 18,
+          attribution:
+            "Imagery &copy; Esri &middot; " +
+            "Mine data: Frontline Talent Group",
+        },
+      ).addTo(map.current);
 
       for (const key of Object.keys(STATUS)) {
         layers.current[key] = L.layerGroup().addTo(map.current);
