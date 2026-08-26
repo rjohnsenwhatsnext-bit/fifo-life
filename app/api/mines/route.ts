@@ -31,6 +31,7 @@ type Row = {
   id: string; name: string; state: string; slug: string;
   latitude: number | null; longitude: number | null;
   status: string; commodity: string[] | null;
+  operator: string | null; mine_type: string | null;
 };
 
 // The same compact keys the map already reads, so nothing downstream changes.
@@ -39,6 +40,11 @@ type Row = {
 type Mine = {
   n: string; s: string; la: number; lo: number;
   st: string; c: string; j?: number; u: string;
+  // Who runs it, and whether it is a pit or underground. Both were sitting in
+  // the database with nothing showing them, which is the same as not having
+  // them. Optional because most rows still have neither and a popup should say
+  // nothing rather than say "unknown".
+  o?: string; t?: string;
 };
 
 const DIRECTORY = "https://mines.frontlinetalentgroup.com.au";
@@ -57,7 +63,7 @@ export async function GET() {
 
   const { data: mines, error } = await db
     .from("mines")
-    .select("id, name, state, slug, latitude, longitude, status, commodity")
+    .select("id, name, state, slug, latitude, longitude, status, commodity, operator, mine_type")
     .limit(5000);
   // Said out loud rather than returning an empty map, which looks identical to
   // a country with no mines in it.
@@ -93,6 +99,11 @@ export async function GET() {
       // Absent rather than zero, which is what the map already expects and what
       // keeps the payload small for the four hundred sites with no work on.
       ...(j > 0 ? { j } : {}),
+      // Only sent when known. Half the rows have no operator yet and a popup
+      // reading "Operator: unknown" is worse than one that simply does not
+      // mention it.
+      ...(m.operator ? { o: m.operator } : {}),
+      ...(m.mine_type && m.mine_type !== "unknown" ? { t: m.mine_type } : {}),
       u: `${DIRECTORY}/mines/${m.state}/${m.slug}`,
     });
   }

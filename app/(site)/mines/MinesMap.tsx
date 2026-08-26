@@ -18,6 +18,8 @@ type Mine = {
   st: "operating" | "development" | "care_maintenance";
   c: string;   // commodities
   j?: number;  // live job listings, absent when there are none
+  o?: string;  // operator, absent when nobody has filled it in yet
+  t?: string;  // open_cut or underground, absent when unknown
   u: string;   // link to the directory entry
 };
 
@@ -133,7 +135,15 @@ export default function MinesMap() {
           .bindPopup(
             `<b>${escape(m.n)}</b><br>` +
             `${escape(m.s)} &middot; ${tone.label}<br>` +
-            `<span style="color:#6b7280">${escape(m.c)}</span><br>` +
+            `<span style="color:#6b7280">${escape(m.c)}` +
+            // Open cut or underground, next to the commodity, because it is the
+            // same kind of fact and it is what somebody deciding whether to
+            // drive there wants to know.
+            (m.t ? ` &middot; ${m.t === "open_cut" ? "open cut" : escape(m.t)}` : "") +
+            `</span><br>` +
+            // Who actually runs it. This sat in the database with nothing
+            // showing it, which is the same as not having it at all.
+            (m.o ? `<b style="color:#111827">${escape(m.o)}</b><br>` : "") +
             (work
               ? `<span style="color:#16a34a;font-weight:700">${work} listed here</span><br>`
               : "") +
