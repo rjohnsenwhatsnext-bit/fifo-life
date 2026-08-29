@@ -29,14 +29,14 @@ import { useEffect, useRef, useState } from "react";
 type Item = { id: string; name: string; done: boolean };
 type ListKey = "jobs" | "packing" | "shopping";
 
-const LISTS: { key: ListKey; title: string; hint: string; placeholder: string; empty: string }[] = [
-  { key: "jobs", title: "Jobs on the van", placeholder: "Add a job",
+const LISTS: { key: ListKey; tab: string; title: string; hint: string; placeholder: string; empty: string }[] = [
+  { key: "jobs", tab: "Jobs", title: "Jobs on the van", placeholder: "Add a job",
     hint: "What has to be done before it goes anywhere.",
     empty: "No jobs on the van." },
-  { key: "packing", title: "Packing", placeholder: "Add something to pack",
+  { key: "packing", tab: "Packing", title: "Packing", placeholder: "Add something to pack",
     hint: "Ticked on the morning you leave. Reset it when you get home.",
     empty: "Nothing on the packing list yet." },
-  { key: "shopping", title: "To buy", placeholder: "Add something to get",
+  { key: "shopping", tab: "Shopping", title: "To buy", placeholder: "Add something to get",
     hint: "Bits for the van. Not the groceries.",
     empty: "Nothing to get." },
 ];
@@ -72,6 +72,9 @@ export default function Van() {
   // not exist, and rendering an empty list and then filling it in is what makes
   // a hydration mismatch.
   const [ready, setReady] = useState(false);
+  // Opens on the jobs, because "is it ready to go" is the question that
+  // brings anybody here in the first place.
+  const [view, setView] = useState<ListKey>("jobs");
 
   useEffect(() => {
     setLists({ jobs: read("jobs"), packing: read("packing"), shopping: read("shopping") });
@@ -114,20 +117,37 @@ export default function Van() {
             : `${jobsLeft} ${jobsLeft === 1 ? "job" : "jobs"} still to do on the van.`}
       </div>
 
-      <div className="van-lists">
-        {LISTS.map((l) => (
-          <List
-            key={l.key}
-            def={l}
-            items={lists[l.key]}
-            onAdd={(name) => add(l.key, name)}
-            onToggle={(id) => toggle(l.key, id)}
-            onRemove={(id) => remove(l.key, id)}
-            onClearDone={() => clearDone(l.key)}
-            onUntickAll={l.key === "packing" ? () => untickAll(l.key) : undefined}
-          />
-        ))}
-      </div>
+      {/* Sub tabs rather than three stacked cards, the same shape the family
+          app uses inside House. Three lists down one page is a lot of thumb on
+          a phone, and the one you want is never the one on screen. One at a
+          time, and the count on the pill says whether the others need you. */}
+      <nav className="van-nav">
+        {LISTS.map((l) => {
+          const left = lists[l.key].filter((i) => !i.done).length;
+          return (
+            <button key={l.key}
+                    className={view === l.key ? "van-navbtn on" : "van-navbtn"}
+                    onClick={() => setView(l.key)}
+                    aria-current={view === l.key ? "page" : undefined}>
+              {l.tab}
+              {left > 0 && <span className="van-count">{left}</span>}
+            </button>
+          );
+        })}
+      </nav>
+
+      {LISTS.filter((l) => l.key === view).map((l) => (
+        <List
+          key={l.key}
+          def={l}
+          items={lists[l.key]}
+          onAdd={(name) => add(l.key, name)}
+          onToggle={(id) => toggle(l.key, id)}
+          onRemove={(id) => remove(l.key, id)}
+          onClearDone={() => clearDone(l.key)}
+          onUntickAll={l.key === "packing" ? () => untickAll(l.key) : undefined}
+        />
+      ))}
 
       <p className="van-privacy">
         These lists are saved on this phone and nowhere else. No account, no sign in, and

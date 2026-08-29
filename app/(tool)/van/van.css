@@ -120,3 +120,28 @@
   max-width: 720px; margin: 26px auto 0;
   color: #7f978e; font-size: 14px; line-height: 1.6;
 }
+
+/* Sub tabs, the same pill row the family app uses inside House. Wraps rather
+   than scrolls: three pills fit a phone, and a row that scrolls sideways hides
+   whichever one is off the edge. */
+.van-nav { display: flex; gap: 8px; flex-wrap: wrap; margin: 0 0 16px; }
+
+.van-navbtn {
+  display: inline-flex; align-items: center; gap: 7px;
+  min-height: 44px; padding: 0 16px;
+  border-radius: 999px; border: 1px solid #24463a;
+  background: #0f1c18; color: #cfe4db;
+  font-family: inherit; font-size: 14.5px; font-weight: 700;
+  cursor: pointer;
+}
+.van-navbtn.on { background: #edf7f2; border-color: #edf7f2; color: #06110d; }
+
+/* How many are still open on a list you are not looking at, which is the whole
+   reason the other pills are worth reading. */
+.van-count {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-width: 21px; height: 21px; padding: 0 6px;
+  border-radius: 999px; font-size: 12px; font-weight: 800;
+  background: #24463a; color: #cfe4db;
+}
+.van-navbtn.on .van-count { background: #2f7d63; color: #06110d; }
