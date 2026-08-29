@@ -760,3 +760,18 @@
 .offline-bar span { position: relative; font-size: 12.5px; font-weight: 700; }
 .offline-done { color: #3ee6b2 !important; font-weight: 700; }
 .offline-note { font-size: 13px; color: #f0b3a3; }
+
+/* Four across once the van checklist joined the bar. Left at three above, so
+   the grid is only widened where it is actually needed. */
+.tabbar.four { grid-template-columns: repeat(4, 1fr); }
+
+/* The one item on the bar that leaves the page rather than switching a panel.
+   Styled identically on purpose: to a thumb it is the fourth thing along, and
+   making it look different would only raise the question of why. */
+.tabbar .jumpout {
+  display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px;
+  min-height: 54px; padding: 7px 4px;
+  color: #8fa3bd; font: inherit; font-size: 11px; font-weight: 700;
+  border-radius: 13px; text-decoration: none;
+}
+.tabbar .jumpout:active { transform: scale(.95); }

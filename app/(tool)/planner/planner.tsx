@@ -35,6 +35,13 @@ function TabMark({ name }: { name: string }) {
         <rect x="2.6" y="6" width="18.8" height="12" rx="2.4" {...a} />
         <circle cx="12" cy="12" r="2.6" {...a} />
       </>}
+      {name === 'Van' && <>
+        {/* A van in profile: body, window, and the two wheels under it. */}
+        <path d="M2.8 15.4V9.2a1.6 1.6 0 0 1 1.6-1.6h9.4l4.6 3.4h1.2a1.6 1.6 0 0 1 1.6 1.6v2.8" {...a} />
+        <path d="M2.8 15.4h2.1M9.3 15.4h5.4M19 15.4h2.2" {...a} />
+        <circle cx="7.1" cy="16.6" r="1.9" {...a} />
+        <circle cx="16.9" cy="16.6" r="1.9" {...a} />
+      </>}
     </svg>
   );
 }
@@ -495,13 +502,21 @@ export default function Planner() {
         which is the whole reason it read worse than it should have. */}
     <Splash going={painted}/>
 
-    <nav className="tabbar">
+    <nav className="tabbar four">
       {([['Explore','Explore'],['Legs','The run'],['Money','Money']] as [Tab,string][]).map(([id,label])=>(
         <button key={id} className={tab===id?'active':''} onClick={()=>setTab(id)} aria-current={tab===id?'page':undefined}>
         <TabMark name={id}/>
         <span>{label}</span>
         </button>
       ))}
+      {/* The other half of the tool, and the only way to reach it on a phone.
+          It was linked from the header first, which is true on a desktop and
+          useless on a mobile: the map takes the whole screen and the header is
+          never seen. A link nobody can see is not a link. */}
+      <a className="jumpout" href="/van">
+        <TabMark name="Van"/>
+        <span>Your van</span>
+      </a>
     </nav>
     <header className="top embedded">
       <div className="actions"><button onClick={()=>setDark(!dark)}>{dark?'☀ Light':'☾ Dark'}</button><button onClick={()=>{setP(defaults);setSpanUnit('months');setSpanText('12');try{localStorage.removeItem('trip-planner-current');}catch{}}}>Reset defaults</button><button onClick={save}>Save plan</button><button onClick={csv}>Export CSV</button><button className="primary" onClick={()=>window.print()}>Print / PDF</button></div>

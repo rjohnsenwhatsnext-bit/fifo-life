@@ -80,6 +80,9 @@ export default function PlannerPage() {
           <h1>The Lap Map</h1>
           <p>How long the money lasts, what the road costs, and what is in every town you stop in.</p>
         </div>
+        {/* The other half of the tool. Built at the same time as this link:
+            a page with nothing pointing at it is a page nobody opens. */}
+        <a className="tool-jump" href="/van">Your van</a>
       </header>
 
       <Planner />

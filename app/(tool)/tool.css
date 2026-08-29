@@ -86,3 +86,18 @@ button, input, select { font: inherit; color: inherit; }
     padding-right: max(12px, env(safe-area-inset-right));
   }
 }
+
+/* The jump between the two halves of the tool: the planner and the van.
+   Sits at the end of the bar so it does not push the title around on a phone,
+   and is a proper 44px target because it gets tapped with a thumb. */
+.tool-jump {
+  margin-left: auto;
+  flex: 0 0 auto;
+  display: inline-flex; align-items: center;
+  min-height: 44px; padding: 0 14px;
+  border: 1px solid #24463a; border-radius: 999px;
+  background: #11201b; color: #cfe4db;
+  font-size: 14px; font-weight: 700; text-decoration: none;
+  white-space: nowrap;
+}
+.tool-jump:hover { border-color: #2f7d63; color: #edf7f2; }

@@ -1,0 +1,122 @@
+/* The van checklist. Same dark ground as the planner next door, because they
+   are the same tool with two jobs, and a second palette would read as a second
+   product. Sized for a thumb: this gets used standing up, in a shed, often in
+   the sun. */
+
+.van-loading { color: #9bb0a8; padding: 28px 4px; font-size: 15px; }
+
+.van-state {
+  background: #11201b;
+  border: 1px solid #1e3a30;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin: 0 0 18px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #edf7f2;
+}
+
+/* One column on a phone, which is where this lives. Wider screens get the
+   three side by side, because at a kitchen table the whole van fits on one
+   screen and that is a different, useful view. */
+.van-lists { display: grid; gap: 16px; }
+@media (min-width: 900px) {
+  .van-lists { grid-template-columns: repeat(3, 1fr); align-items: start; }
+}
+
+.van-card {
+  background: #0f1c18;
+  border: 1px solid #1e3a30;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+.van-card-top h2 {
+  font-size: 18px; font-weight: 800; color: #edf7f2;
+  letter-spacing: -.01em; margin: 0;
+}
+.van-card-top p { font-size: 13px; color: #7f978e; margin: 4px 0 0; }
+
+.van-add { display: flex; gap: 8px; margin: 14px 0 10px; }
+
+.van-input {
+  flex: 1; min-width: 0;
+  background: #0a1411;
+  border: 1px solid #24463a;
+  border-radius: 10px;
+  padding: 0 12px;
+  /* 44px so a thumb hits it, and 16px type so iOS does not zoom the page in
+     when the box takes focus, which then leaves the layout scaled. */
+  height: 44px;
+  font-size: 16px;
+  color: #edf7f2;
+  font-family: inherit;
+}
+.van-input::placeholder { color: #5d7269; }
+.van-input:focus { outline: 2px solid #2f7d63; outline-offset: 1px; }
+
+.van-btn {
+  height: 44px; padding: 0 16px;
+  border-radius: 10px; border: 1px solid #2f7d63;
+  background: #2f7d63; color: #06110d;
+  font-size: 15px; font-weight: 700; font-family: inherit;
+  cursor: pointer;
+}
+.van-btn:disabled { opacity: .4; cursor: default; }
+.van-btn.ghost {
+  background: transparent; color: #9bb0a8; border-color: #24463a;
+  font-weight: 600; font-size: 13.5px; height: 38px; padding: 0 12px;
+}
+
+.van-list { list-style: none; display: grid; gap: 2px; }
+
+.van-item { display: flex; align-items: center; gap: 6px; }
+
+.van-tick {
+  flex: 1; min-width: 0;
+  display: flex; align-items: center; gap: 11px;
+  background: none; border: 0; cursor: pointer;
+  padding: 11px 4px; text-align: left;
+  font-family: inherit; font-size: 16px; color: #edf7f2;
+  min-height: 44px;
+}
+
+.van-box {
+  flex: 0 0 auto; width: 21px; height: 21px;
+  border: 2px solid #3c6657; border-radius: 6px;
+  position: relative;
+}
+.van-item.done .van-box { background: #2f7d63; border-color: #2f7d63; }
+.van-item.done .van-box::after {
+  content: ""; position: absolute; left: 6px; top: 2px;
+  width: 5px; height: 10px;
+  border: solid #06110d; border-width: 0 2.5px 2.5px 0;
+  transform: rotate(45deg);
+}
+
+.van-name { overflow-wrap: anywhere; }
+/* Ruled through rather than removed. A ticked line still being readable is
+   what tells you it was on the list at all, which is the difference between a
+   checklist and a list that shrinks as you use it. */
+.van-item.done .van-name { color: #6f857c; text-decoration: line-through; }
+
+.van-x {
+  flex: 0 0 auto;
+  width: 40px; height: 40px;
+  background: none; border: 0; cursor: pointer;
+  color: #55695f; font-size: 22px; line-height: 1;
+  font-family: inherit; border-radius: 8px;
+}
+.van-x:hover { color: #d98a8a; }
+
+.van-empty { color: #6f857c; font-size: 14.5px; padding: 6px 4px 2px; }
+
+.van-actions {
+  display: flex; flex-wrap: wrap; gap: 8px;
+  margin-top: 12px; padding-top: 12px; border-top: 1px solid #1a3128;
+}
+
+.van-privacy {
+  max-width: 720px; margin: 26px auto 0;
+  color: #7f978e; font-size: 14px; line-height: 1.6;
+}

@@ -40,6 +40,12 @@ const nextConfig: NextConfig = {
       // 404.
       { source: "/planner/:path*", has: [{ type: "host" as const, value: host }],
         destination: `https://${LAP_MAP}/planner/:path*`, permanent: true },
+      // The van checklist is the tool's other half and belongs on the tool's
+      // own domain, the same as the planner. Without this it would also answer
+      // on the magazine, which splits the address people share and hands two
+      // domains the standing that should sit with one.
+      { source: "/van", has: [{ type: "host" as const, value: host }],
+        destination: `https://${LAP_MAP}/van`, permanent: true },
     ]);
   },
 
