@@ -27,7 +27,7 @@ import { useEffect, useRef, useState } from "react";
 // gets ticked in a Woolworths in a town you have never been to.
 
 type Item = { id: string; name: string; done: boolean };
-type ListKey = "jobs" | "packing" | "shopping";
+type ListKey = "jobs" | "packing" | "groceries" | "shopping";
 
 const LISTS: { key: ListKey; tab: string; title: string; hint: string; placeholder: string; empty: string }[] = [
   { key: "jobs", tab: "Jobs", title: "Jobs on the van", placeholder: "Add a job",
@@ -36,8 +36,16 @@ const LISTS: { key: ListKey; tab: string; title: string; hint: string; placehold
   { key: "packing", tab: "Packing", title: "Packing", placeholder: "Add something to pack",
     hint: "Ticked on the morning you leave. Reset it when you get home.",
     empty: "Nothing on the packing list yet." },
-  { key: "shopping", tab: "Shopping", title: "To buy", placeholder: "Add something to get",
-    hint: "Bits for the van. Not the groceries.",
+  // Two shopping lists, because they are two different shops. Food is bought
+  // constantly and in whatever town you are in; a sullage hose or an anode rod
+  // comes from a camping shop or a mechanic and might wait a fortnight. One
+  // list holding both means scrolling past the tyres to find the tea bags,
+  // which is the same reason the jobs are not in here either.
+  { key: "groceries", tab: "Groceries", title: "Groceries", placeholder: "Add something",
+    hint: "Food and the rest of the shop.",
+    empty: "Nothing on the list." },
+  { key: "shopping", tab: "Bits", title: "Bits for the van", placeholder: "Add something to get",
+    hint: "Parts, gas, bits and pieces. Not the food.",
     empty: "Nothing to get." },
 ];
 
@@ -67,7 +75,7 @@ const newId = () =>
   `${Date.now().toString(36)}${Math.random().toString(36).slice(2, 7)}`;
 
 export default function Van() {
-  const [lists, setLists] = useState<Record<ListKey, Item[]>>({ jobs: [], packing: [], shopping: [] });
+  const [lists, setLists] = useState<Record<ListKey, Item[]>>({ jobs: [], packing: [], groceries: [], shopping: [] });
   // Nothing is read until the browser is there. On the server localStorage does
   // not exist, and rendering an empty list and then filling it in is what makes
   // a hydration mismatch.
@@ -77,7 +85,8 @@ export default function Van() {
   const [view, setView] = useState<ListKey>("jobs");
 
   useEffect(() => {
-    setLists({ jobs: read("jobs"), packing: read("packing"), shopping: read("shopping") });
+    setLists({ jobs: read("jobs"), packing: read("packing"),
+               groceries: read("groceries"), shopping: read("shopping") });
     setReady(true);
   }, []);
 
@@ -149,10 +158,7 @@ export default function Van() {
         />
       ))}
 
-      <p className="van-privacy">
-        These lists are saved on this phone and nowhere else. No account, no sign in, and
-        nothing of yours on a server. Clearing your browser data clears them.
-      </p>
+      <p className="van-privacy">Saved on this phone. No account, no sign in.</p>
     </div>
   );
 }
@@ -183,8 +189,13 @@ function List({ def, items, onAdd, onToggle, onRemove, onClearDone, onUntickAll 
     input.current?.focus();
   }
 
+  // The shopping list is the one that gets taken somewhere, so it is the one
+  // that looks like the thing it replaced: a pad off the fridge. The other two
+  // stay plain, because handwriting on a list of jobs would be a costume.
+  const pad = def.key === "shopping" || def.key === "groceries";
+
   return (
-    <section className="van-card">
+    <section className={pad ? "van-card pad" : "van-card"}>
       <header className="van-card-top">
         <h2>{def.title}</h2>
         <p>{def.hint}</p>

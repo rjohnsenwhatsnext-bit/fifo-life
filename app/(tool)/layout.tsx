@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Analytics } from "@vercel/analytics/next";
+import { Caveat } from "next/font/google";
 import "./tool.css";
 
 // The planner is a tool, not an article.
@@ -20,13 +21,25 @@ import "./tool.css";
 // FIFO Life logo for a while after this got its own domain, which meant landing
 // on thelapmap.com.au and being told you were somewhere else.
 
+// The hand for the shopping pad, and nothing else on the tool.
+//
+// A shopping list is the one thing here that was already working before
+// software: a biro, a pad and a magnet. The screen only wins if it feels like
+// the thing it replaced. Handwriting anywhere else would be a costume.
+const hand = Caveat({
+  subsets: ["latin"],
+  weight: ["400", "600", "700"],
+  variable: "--lap-hand",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: { default: "The Lap Map, Big Lap Trip Planner", template: "%s" },
 };
 
 export default function ToolLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en-AU">
+    <html lang="en-AU" className={hand.variable}>
       <body>
         {children}
         <Analytics />

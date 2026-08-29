@@ -52,28 +52,6 @@ export default function VanPage() {
 
       <Van />
 
-      <section className="tool-words">
-        <h2>Why this is three lists and not one</h2>
-        <p>
-          They empty at different moments. Jobs get ticked in the shed the week before, packing
-          gets ticked on the morning you leave, and the shopping gets ticked in a supermarket in a
-          town you have never been to. One list holding all three means scrolling past the tyres to
-          find the tea bags.
-        </p>
-        <p>
-          Packing is the one that repeats. It is the same list every trip, near enough, so it has
-          an untick rather than only a delete: the point of writing it down once is not writing it
-          again. Jobs and shopping are different every time, so they only clear.
-        </p>
-        <h2>There is no account, on purpose</h2>
-        <p>
-          The lists are saved in this browser and nowhere else. Nothing is sent anywhere, there is
-          nothing to sign into, and there is no copy of your van on a server belonging to anybody.
-          It also means it works with no signal, which is where a van checklist actually gets used.
-          The trade is that the lists live on the phone that wrote them, and clearing your browser
-          data clears them.
-        </p>
-      </section>
     </div>
   );
 }
