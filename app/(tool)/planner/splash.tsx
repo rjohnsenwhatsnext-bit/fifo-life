@@ -27,6 +27,20 @@ function Rig() {
   return (
     <svg className="lapsplash-rig" viewBox="0 0 260 92" role="img"
          aria-label="A ute towing a caravan">
+      {/* Mirrored here rather than in CSS, so the ute leads and the van
+          follows. It was drawn the other way round, which had the van in front
+          being pushed along.
+
+          An SVG transform rather than a CSS one because .lapsplash-rig already
+          animates transform for the rise, with fill both, so a CSS scaleX on
+          the same element is simply overwritten by the animation's final frame
+          and nothing happens. This cannot be overridden by an animation that
+          does not know about it.
+
+          Flipping the drawing also turns the wheels the right way: a clockwise
+          spin through a mirror renders anticlockwise, which is what a wheel
+          does going the other way. */}
+      <g transform="translate(260,0) scale(-1,1)">
       {/* The road. Dashes rather than a line, because it is the dashes moving
           that says the rig is travelling rather than parked. */}
       <g className="lapsplash-road">
@@ -65,6 +79,7 @@ function Rig() {
             <path d={`M${cx} ${cy - 5.5}v11M${cx - 5.5} ${cy}h11`} />
           </g>
         ))}
+      </g>
       </g>
     </svg>
   );

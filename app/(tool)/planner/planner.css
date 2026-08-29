@@ -661,7 +661,7 @@
 /* A little unevenness, because a van on a road is never perfectly level. */
 .lapsplash-rig-body { animation: lap-bob 2.4s ease-in-out infinite; }
 
-@keyframes lap-road { from { stroke-dashoffset: 0; } to { stroke-dashoffset: -30; } }
+@keyframes lap-road { from { stroke-dashoffset: 0; } to { stroke-dashoffset: 30; } }
 @keyframes lap-roll { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 @keyframes lap-bob {
   0%, 100% { transform: translateY(0); }
