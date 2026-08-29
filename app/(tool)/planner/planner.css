@@ -636,6 +636,14 @@
   margin: 0; font-size: 13.5px; font-weight: 600; color: #8fa3bd; text-align: center;
   animation: lap-rise .55s .12s ease both;
 }
+/* The rig. Sized off the viewport so it fills a phone without ever getting
+   silly on a desktop, and given an explicit aspect ratio so the layout does not
+   jump when it loads: a splash that reflows is worse than one that waits. */
+.lapsplash-rig {
+  width: min(88vw, 420px); height: auto; aspect-ratio: 900 / 251;
+  animation: lap-rise .55s .1s ease both;
+}
+
 .lapsplash-dots { display: flex; gap: 7px; }
 .lapsplash-dots span {
   width: 7px; height: 7px; border-radius: 50%; background: #3ee6b2; opacity: .3;

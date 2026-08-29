@@ -11,12 +11,17 @@
 // actually painted, then faded out. The work takes exactly as long as it did;
 // it just stops being something you have to watch.
 //
-// A PICTURE IS COMING HERE
-// --------------------------
-// There was a ute and van drawn in SVG at this spot. It was accurate and it
-// looked hand drawn, so it is gone and a real illustration is going in instead.
-// Drop the file in public/ and put it here; the dots below are the placeholder
-// until then, and they are what was here before the drawing.
+// THE RIG
+// -------
+// Ryan's illustration, in public/rig.png. There was an SVG one drawn here
+// first: it was accurate, it looked hand drawn, and it took three goes to even
+// point the right way. A real drawing beat it in one.
+//
+// Stored already cropped and already recoloured to light lines on
+// transparency. The original is black on white, and the splash is a dark navy
+// gradient, so untreated it would sit on the screen in a white box. Doing it in
+// the file rather than with a CSS filter means no work at paint time on the one
+// screen whose entire job is to appear immediately.
 //
 // Drawn rather than an image file. It is about two kilobytes of markup that
 // scales to any screen, it is the same two accent colours the rest of the tool
@@ -30,6 +35,12 @@ export default function Splash({ going }: { going: boolean }) {
         The Lap Map
         <i />
       </div>
+      {/* Ryan's drawing, not a generated one. Cropped to the artwork and
+          recoloured to light lines on transparency, because the splash is a
+          dark navy gradient and the original is black on white, which would
+          have sat on it in a white box. */}
+      <img className="lapsplash-rig" src="/rig.png" alt="A ute towing a caravan"
+           width={900} height={251} />
       <div className="lapsplash-dots"><span /><span /><span /></div>
       {/* The budgeter is the product; the map is how it answers. And no claim
           about servos, because diesel coverage is state by state (WA, QLD and
