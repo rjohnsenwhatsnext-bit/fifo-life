@@ -177,7 +177,21 @@ export default function Planner() {
   // the happy path: on a bad connection the tile load event may never come, and
   // a splash nobody can get past is worse than a map that arrives in pieces.
   const [painted,setPainted]=useState(false);
-  useEffect(()=>{ const t=setTimeout(()=>setPainted(true), 4500); return ()=>clearTimeout(t); },[]);
+  // Two timers, not one, because there are two ways this goes wrong.
+  //
+  // The cap was already here: on a bad connection the tile load event may never
+  // arrive, and a splash nobody can get past is worse than a map arriving in
+  // pieces.
+  //
+  // The floor is new. On a quick connection the tiles paint almost at once and
+  // the screen was gone before it had finished appearing, which reads as a
+  // flicker rather than as an opening. Held long enough for the rig to travel.
+  const [heldLongEnough,setHeld]=useState(false);
+  useEffect(()=>{
+    const floor=setTimeout(()=>setHeld(true), 2400);
+    const cap=setTimeout(()=>{ setPainted(true); setHeld(true); }, 6000);
+    return ()=>{ clearTimeout(floor); clearTimeout(cap); };
+  },[]);
   const toggleLayer=useCallback((key:LayerKey)=>setShow(v=>({...v,[key]:!v[key]})),[]);
   // Search moves the map and then asks what is around where it landed, which is
   // the thing somebody wanted when they typed a town in.
@@ -500,7 +514,7 @@ export default function Planner() {
         Splitting the map away from the legs is the other half of it: the map
         had the legs list underneath it and so could never have the screen,
         which is the whole reason it read worse than it should have. */}
-    <Splash going={painted}/>
+    <Splash going={painted && heldLongEnough}/>
 
     <nav className="tabbar four">
       {([['Explore','Explore'],['Legs','The run'],['Money','Money']] as [Tab,string][]).map(([id,label])=>(
