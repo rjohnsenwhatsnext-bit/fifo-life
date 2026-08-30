@@ -49,24 +49,14 @@ const nextConfig: NextConfig = {
     ]);
   },
 
-  async rewrites() {
-    return {
-      beforeFiles: [
-        {
-          source: "/",
-          has: [{ type: "host", value: LAP_MAP }],
-          destination: "/planner",
-        },
-        {
-          source: "/",
-          has: [{ type: "host", value: `www.${LAP_MAP}` }],
-          destination: "/planner",
-        },
-      ],
-      afterFiles: [],
-      fallback: [],
-    };
-  },
+  // The rewrite that used to serve the planner at thelapmap.com.au's root is
+  // gone with it. The Lap Map is its own project and its own deployment since
+  // 30 Aug 2026, so this app no longer answers on that domain at all.
+  //
+  // The redirects above stay, and matter more than they did: they are what
+  // keeps every link and every search result pointing at fifolife.au/planner
+  // working, and hands their standing to the tool's own address rather than
+  // stranding them on a 404 here.
 };
 
 export default nextConfig;
